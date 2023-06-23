@@ -13,7 +13,10 @@ export const Informacion = sequelize.define('tbl_informacione',{
         type:DataTypes.STRING,
         allowNull: false
     },
-
+    descripcion: {
+        type:DataTypes.STRING,
+        allowNull: false
+    },
     archivo:{
         type:DataTypes.STRING,
         allowNull: false

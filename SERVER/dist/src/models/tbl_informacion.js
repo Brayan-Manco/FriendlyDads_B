@@ -18,6 +18,10 @@ exports.Informacion = connection_1.default.define('tbl_informacione', {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
     },
+    descripcion: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false
+    },
     archivo: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false

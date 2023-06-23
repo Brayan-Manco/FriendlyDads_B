@@ -136,10 +136,16 @@ export const loginUser = async (req: Request, res: Response) => {
     }
     //Si la contraseña es válida, se genera un token de autenticación utilizando la 
     //biblioteca jsonwebtoken (jwt.sign). 
+        const datos = await Cuenta.findAll(
+            {where: {correo: correo},
+            attributes: ['usuario', 'correo', 'fk_id_rol']})
+    
+
     const token = jwt.sign({
         correo: correo
     }, process.env.SECRET_KEY || 'admin');
 
+
     //se devuelve una respuesta JSON que contiene el token generado.
-    res.json({token});
+    res.json({token , datos});
 }

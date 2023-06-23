@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getInformacion = exports.newInfo = void 0;
+exports.getConsult = exports.getInformacion = exports.newInfo = void 0;
 const tbl_informacion_1 = require("../models/tbl_informacion");
+const sequelize_1 = require("sequelize");
 const newInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { fk_id_clasificacion, fk_id_admin, nombre } = req.body;
     let doc = "";
@@ -40,3 +41,18 @@ const getInformacion = (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.json(listInfo);
 });
 exports.getInformacion = getInformacion;
+const getConsult = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { search } = req.body;
+    try {
+        const resultados = yield tbl_informacion_1.Informacion.findAll({ where: { nombre: {
+                    [sequelize_1.Op.like]: `%${search}%`
+                }
+            }
+        });
+        res.json(resultados);
+    }
+    catch (error) {
+        console.error('Error al ejecutar la consulta: ' + error);
+    }
+});
+exports.getConsult = getConsult;

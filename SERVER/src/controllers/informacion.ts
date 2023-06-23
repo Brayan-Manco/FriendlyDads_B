@@ -1,5 +1,6 @@
 import {Request, Response} from 'express'
 import { Informacion } from '../models/tbl_informacion'
+import { Op } from 'sequelize';
 
 
 export const newInfo = async(req: Request, res: Response)=>{
@@ -32,4 +33,20 @@ export const getInformacion = async (req: Request, res: Response )=>{
     const listInfo = await Informacion.findAll();
 
     res.json(listInfo)
+}
+
+export const getConsult = async (req: Request, res:Response)=>{
+
+    const {search } = req.body;
+
+    try {
+        const resultados = await Informacion.findAll({where: { nombre: {
+            [Op.like]: `%${search}%`
+            }
+        }
+    });
+    res.json(resultados);
+  } catch (error) {
+    console.error('Error al ejecutar la consulta: ' + error);
+  }
 }

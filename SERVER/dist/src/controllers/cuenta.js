@@ -17,11 +17,14 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const tbl_cuenta_1 = require("../models/tbl_cuenta");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const newCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //extraemos los datos necesarios de la solicitud (req.body), 
+    //como el usuario,correo electrónico, la contraseñay el rol.
     const { usuario, correo, contrasena, fk_id_rol } = req.body;
     //el hash encripta la contraseña
     const hashedContrasena = yield bcrypt_1.default.hash(contrasena, 10);
-    //se hace la consulta si existe 
+    //se hace la consulta si existe el usuario
     const usuarioExits = yield tbl_cuenta_1.Cuenta.findOne({ where: { usuario: usuario } });
+    //se hace la consulta si existe el correo
     const correoExist = yield tbl_cuenta_1.Cuenta.findOne({ where: { correo: correo } });
     //se hace condicion si ya exite y retorna un mensaje si existe
     if (usuarioExits) {
@@ -35,18 +38,22 @@ const newCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     try {
-        //creamos una cuenta 
+        //creamos una cuenta mediante el Cuenta.create
         yield tbl_cuenta_1.Cuenta.create({
             usuario: usuario,
             correo: correo,
             contrasena: hashedContrasena,
             fk_id_rol: fk_id_rol
         });
+        //devuelve un mensaje de exito de la creacion de la cuenta
+        //en fomarmato JSON utilizando la funcion res.json()
         res.json({
             msg: 'Usuario Creado',
         });
     }
     catch (error) {
+        //devuelve un mensaje de error en la creacion de la cuenta
+        //en fomarmato JSON utilizando la funcion res.json()
         res.status(400).json({
             msg: 'ERROR CREATE USER', error
         });
@@ -54,7 +61,10 @@ const newCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.newCuenta = newCuenta;
 const getCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //se hace un consulda a base datos mediante mediante la funcion Cuenta.findAll()
     const listCuenta = yield tbl_cuenta_1.Cuenta.findAll();
+    //se devuelve la lista de cuentas como respuesta en formato JSON utilizando 
+    //la función res.json(). Esto envía la lista de cuentas al cliente que realizó la solicitud.
     res.json(listCuenta);
 });
 exports.getCuenta = getCuenta;
@@ -97,26 +107,36 @@ exports.getCuenta = getCuenta;
 //     }
 //   };
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //extraemos los datos necesarios de la solicitud (req.body), 
+    //como el correo electrónico y la contraseña.
     const { correo, contrasena } = req.body;
     //validamos  si el usuario existe
     const correoExist = yield tbl_cuenta_1.Cuenta.findOne({ where: { correo: correo } });
+    //se devuelve un mensaje de error en formato JSON utilizando 
+    //la función res.json(). 
     if (!correoExist) {
         return res.status(404).json({
             msg: 'Correo Incorrecto'
         });
     }
-    //validamos la contraseña
+    //Utilizando la función bcrypt.compare, comparamos la contraseña proporcionada con la 
+    //contraseña almacenada en la base de datos (correoExist.contrasena). Esta función compara 
+    //las dos contraseñas y devuelve un valor booleano que indica si son iguales o no.
     const contrasenaValid = yield bcrypt_1.default.compare(contrasena, correoExist.contrasena);
-    console.log(contrasenaValid);
+    //retorna un mensaje si la contraseña es incorrecta
     if (!contrasenaValid) {
         return res.status(400).json({
             msg: 'Contraseña Incorrecta'
         });
     }
-    //genereamos el token
+    //Si la contraseña es válida, se genera un token de autenticación utilizando la 
+    //biblioteca jsonwebtoken (jwt.sign). 
+    const datos = yield tbl_cuenta_1.Cuenta.findAll({ where: { correo: correo },
+        attributes: ['usuario', 'correo', 'fk_id_rol'] });
     const token = jsonwebtoken_1.default.sign({
         correo: correo
     }, process.env.SECRET_KEY || 'admin');
-    res.json({ token });
+    //se devuelve una respuesta JSON que contiene el token generado.
+    res.json({ token, datos });
 });
 exports.loginUser = loginUser;

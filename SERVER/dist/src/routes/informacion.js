@@ -10,4 +10,5 @@ const docsMulter_1 = require("../models/docsMulter");
 const router = (0, express_1.Router)();
 router.post('/', docsMulter_1.uploadDocs.single("doc"), informacion_1.newInfo);
 router.get('/', validator_token_1.default, informacion_1.getInformacion);
+router.post('/search', informacion_1.getConsult);
 exports.default = router;
