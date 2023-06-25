@@ -75,11 +75,12 @@ class Server {
             await Estado.sync();
             await Tipo_doc.sync();
             await Parentesco.sync();
-            await Usuario.sync({alter: true});
+            await Usuario.sync();
             await Bebe.sync();
-            await Administrador.sync({alter: true});
-            await Clasificacion.sync({alter: true});
-            await Informacion.sync({alter: true});
+            
+            await Administrador.sync();
+            await Clasificacion.sync();
+            await Informacion.sync();
             console.log('Conexión Exitosa');
         } catch (error) {
             console.error('Unable to connect to the database:', error);
