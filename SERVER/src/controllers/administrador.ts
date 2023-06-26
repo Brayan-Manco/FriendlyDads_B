@@ -9,6 +9,7 @@ export const newAdmin = async(req:Request , res: Response)=>{
     let foto = "";
     if (req.file) {
         foto = req.file.filename;
+        
     }
 
     //consulta si ya exite el documento y dueño de la cuenta

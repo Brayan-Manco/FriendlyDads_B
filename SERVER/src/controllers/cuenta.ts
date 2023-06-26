@@ -61,91 +61,75 @@ export const getCuenta = async (req: Request, res: Response )=>{
 }
 
 
-// export const loginUser = async (req: Request, res: Response) => {
-//     const { correo, contrasena } = req.body;
-  
-//     try {
-//       // Validamos si el usuario existe
-//       const cuenta: any = await Cuenta.findOne({
-//         where: { correo },
-//         include: [{ model: Rol, as: 'rol' }]
-//       });
-//       if (!cuenta) {
-//         return res.status(404).json({
-//           msg: 'Correo Incorrecto'
-//         });
-//       }
-  
-//       // Validamos la contraseña
-//       const contrasenaValida = await bcrypt.compare(contrasena, cuenta.contrasena);
-  
-//       if (!contrasenaValida) {
-//         return res.status(400).json({
-//           msg: 'Contraseña Incorrecta'
-//         });
-//       }
-  
-//       // Validamos el rol del usuario
-//       if (cuenta.rol.nombre === 'admin') {
-//         // Acciones para usuarios con rol de administrador
-//         // ...
-//       } else {
-//         // Acciones para otros roles
-//         // ...
-//       }
-  
-//       // Generamos el token
-//       const token = jwt.sign({ correo: cuenta.correo }, process.env.SECRET_KEY || 'admin');
-  
-//       res.json({ token });
-//     } catch (error) {
-//       console.log(error);
-//       res.status(500).json({
-//         msg: 'Error en el servidor'
-//       });
-//     }
-//   };
-
 
 export const loginUser = async (req: Request, res: Response) => {
 
-    //extraemos los datos necesarios de la solicitud (req.body), 
-    //como el correo electrónico y la contraseña.
     const {correo, contrasena} = req.body;
 
-    //validamos  si el usuario existe
-    const correoExist: any = await Cuenta.findOne({where: { correo: correo}})
+   // Validamos si el usuario existe en la base de datos
+   const cuenta: any = await Cuenta.findOne({ where: { correo: correo } });
 
-    //se devuelve un mensaje de error en formato JSON utilizando 
-    //la función res.json(). 
-    if(!correoExist){
-        return res.status(404).json({
-            msg: 'Correo Incorrecto'
-        })
-    }
-    //Utilizando la función bcrypt.compare, comparamos la contraseña proporcionada con la 
-    //contraseña almacenada en la base de datos (correoExist.contrasena). Esta función compara 
-    //las dos contraseñas y devuelve un valor booleano que indica si son iguales o no.
-    const contrasenaValid = await bcrypt.compare(contrasena, correoExist.contrasena);
-
-    //retorna un mensaje si la contraseña es incorrecta
-    if(!contrasenaValid){
+   if(!cuenta) {
         return res.status(400).json({
-            msg: 'Contraseña Incorrecta'
+            msg: `No existe un usuario con el nombre ${correo} en la base datos`
         })
-    }
-    //Si la contraseña es válida, se genera un token de autenticación utilizando la 
-    //biblioteca jsonwebtoken (jwt.sign). 
-        const datos = await Cuenta.findAll(
-            {where: {correo: correo},
-            attributes: ['usuario', 'correo', 'fk_id_rol']})
+   }
+
+   // Validamos password
+   const passwordValid = await bcrypt.compare(contrasena, cuenta.contrasena)
+   if(!passwordValid) {
+    return res.status(400).json({
+        msg: `Password Incorrecta`
+    })
+   }
+
+   // Generamos token
+   const token = jwt.sign({
+    correo: correo
+   }, process.env.SECRET_KEY || 'pepito123');
+   
+   res.json(token);
+}
+
+// export const loginUser = async (req: Request, res: Response) => {
+
+//     //extraemos los datos necesarios de la solicitud (req.body), 
+//     //como el correo electrónico y la contraseña.
+//     const {correo, contrasena} = req.body;
+
+//     //validamos  si el usuario existe
+//     const correoExist: any = await Cuenta.findOne({where: { correo: correo}})
+
+//     //se devuelve un mensaje de error en formato JSON utilizando 
+//     //la función res.json(). 
+//     if(!correoExist){
+//         return res.status(404).json({
+//             msg: 'Correo Incorrecto'
+//         })
+//     }
+//     //Utilizando la función bcrypt.compare, comparamos la contraseña proporcionada con la 
+//     //contraseña almacenada en la base de datos (correoExist.contrasena). Esta función compara 
+//     //las dos contraseñas y devuelve un valor booleano que indica si son iguales o no.
+//     const contrasenaValid = await bcrypt.compare(contrasena, correoExist.contrasena);
+
+//     //retorna un mensaje si la contraseña es incorrecta
+//     if(!contrasenaValid){
+//         return res.status(400).json({
+//             msg: 'Contraseña Incorrecta'
+//         })
+//     }
+//     //Si la contraseña es válida, se genera un token de autenticación utilizando la 
+//     //biblioteca jsonwebtoken (jwt.sign). 
+//         // const datos = await Cuenta.findAll(
+//         //     {where: {correo: correo},
+//         //     attributes: ['usuario', 'correo', 'fk_id_rol']})
     
 
-    const token = jwt.sign({
-        correo: correo
-    }, process.env.SECRET_KEY || 'admin');
+//     const token = jwt.sign({
+//         correo: correo
+//     }, process.env.SECRET_KEY || 'admin');
 
 
-    //se devuelve una respuesta JSON que contiene el token generado.
-    res.json({token , datos});
-}
+//     //se devuelve una respuesta JSON que contiene el token generado.
+//     res.json({token});
+// }
