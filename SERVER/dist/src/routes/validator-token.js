@@ -11,7 +11,7 @@ const validateToken = (req, res, next) => {
         try {
             const bearerToken = headerToken.slice(7); // .slice es que empieza despues del numero que 
             //se coloque dentro de los ()
-            jsonwebtoken_1.default.verify(bearerToken, process.env.SECRET_KEY || 'admin'); //verifica el token y se firma con 
+            jsonwebtoken_1.default.verify(bearerToken, process.env.SECRET_KEY || 'admin123'); //verifica el token y se firma con 
             // conestra contraseña secreta
             next(); //next significa que continua
         }
