@@ -16,7 +16,6 @@ exports.loginUser = exports.getCuenta = exports.newCuenta = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const tbl_cuenta_1 = require("../models/tbl_cuenta");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const tbl_rol_1 = require("../models/tbl_rol");
 const newCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //extraemos los datos necesarios de la solicitud (req.body), 
     //como el usuario,correo electrónico, la contraseñay el rol.
@@ -63,69 +62,82 @@ const newCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.newCuenta = newCuenta;
 const getCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //se hace un consulda a base datos mediante mediante la funcion Cuenta.findAll()
-    const listCuenta = yield tbl_cuenta_1.Cuenta.findAll({ include: tbl_rol_1.Rol });
+    const listCuenta = yield tbl_cuenta_1.Cuenta.findAll();
     //se devuelve la lista de cuentas como respuesta en formato JSON utilizando 
     //la función res.json(). Esto envía la lista de cuentas al cliente que realizó la solicitud.
     res.json(listCuenta);
 });
 exports.getCuenta = getCuenta;
+// export const loginUser = async (req: Request, res: Response) => {
+//     const { correo, contrasena } = req.body;
+//     try {
+//       // Validamos si el usuario existe
+//       const cuenta: any = await Cuenta.findOne({
+//         where: { correo },
+//         include: [{ model: Rol, as: 'rol' }]
+//       });
+//       if (!cuenta) {
+//         return res.status(404).json({
+//           msg: 'Correo Incorrecto'
+//         });
+//       }
+//       // Validamos la contraseña
+//       const contrasenaValida = await bcrypt.compare(contrasena, cuenta.contrasena);
+//       if (!contrasenaValida) {
+//         return res.status(400).json({
+//           msg: 'Contraseña Incorrecta'
+//         });
+//       }
+//       // Validamos el rol del usuario
+//       if (cuenta.rol.nombre === 'admin') {
+//         // Acciones para usuarios con rol de administrador
+//         // ...
+//       } else {
+//         // Acciones para otros roles
+//         // ...
+//       }
+//       // Generamos el token
+//       const token = jwt.sign({ correo: cuenta.correo }, process.env.SECRET_KEY || 'admin');
+//       res.json({ token });
+//     } catch (error) {
+//       console.log(error);
+//       res.status(500).json({
+//         msg: 'Error en el servidor'
+//       });
+//     }
+//   };
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //extraemos los datos necesarios de la solicitud (req.body), 
+    //como el correo electrónico y la contraseña.
     const { correo, contrasena } = req.body;
-    // Validamos si el usuario existe en la base de datos
-    const cuenta = yield tbl_cuenta_1.Cuenta.findOne({ where: { correo: correo } });
-    if (!cuenta) {
-        return res.status(400).json({
-            msg: `No existe un usuario con el nombre ${correo} en la base datos`
+    //validamos  si el usuario existe
+    const correoExist = yield tbl_cuenta_1.Cuenta.findOne({ where: { correo: correo } });
+    //se devuelve un mensaje de error en formato JSON utilizando 
+    //la función res.json(). 
+    if (!correoExist) {
+        return res.status(404).json({
+            msg: 'Correo Incorrecto'
         });
     }
-    // Validamos password
-    const passwordValid = yield bcrypt_1.default.compare(contrasena, cuenta.contrasena);
-    if (!passwordValid) {
+    //Utilizando la función bcrypt.compare, comparamos la contraseña proporcionada con la 
+    //contraseña almacenada en la base de datos (correoExist.contrasena). Esta función compara 
+    //las dos contraseñas y devuelve un valor booleano que indica si son iguales o no.
+    const contrasenaValid = yield bcrypt_1.default.compare(contrasena, correoExist.contrasena);
+    //retorna un mensaje si la contraseña es incorrecta
+    if (!contrasenaValid) {
         return res.status(400).json({
-            msg: `Password Incorrecta`
+            msg: 'Contraseña Incorrecta'
         });
     }
-    //    const token = jwt.sign({
-    //     correo: Cuenta.correo, 
-    //    }, process.env.SECRET_KEY || 'pepito123');
-    // Generamos token
+    const datos = yield tbl_cuenta_1.Cuenta.findOne({ where: { correo: correo },
+        attributes: ['fk_id_rol']
+    });
+    //Si la contraseña es válida, se genera un token de autenticación utilizando la 
+    //biblioteca jsonwebtoken (jwt.sign). 
     const token = jsonwebtoken_1.default.sign({
         correo: correo
-    }, process.env.SECRET_KEY || 'pepito123');
-    res.json(token);
+    }, process.env.SECRET_KEY || 'admin');
+    //se devuelve una respuesta JSON que contiene el token generado.
+    res.json({ token, datos });
 });
 exports.loginUser = loginUser;
-// export const loginUser = async (req: Request, res: Response) => {
-//     //extraemos los datos necesarios de la solicitud (req.body), 
-//     //como el correo electrónico y la contraseña.
-//     const {correo, contrasena} = req.body;
-//     //validamos  si el usuario existe
-//     const correoExist: any = await Cuenta.findOne({where: { correo: correo}})
-//     //se devuelve un mensaje de error en formato JSON utilizando 
-//     //la función res.json(). 
-//     if(!correoExist){
-//         return res.status(404).json({
-//             msg: 'Correo Incorrecto'
-//         })
-//     }
-//     //Utilizando la función bcrypt.compare, comparamos la contraseña proporcionada con la 
-//     //contraseña almacenada en la base de datos (correoExist.contrasena). Esta función compara 
-//     //las dos contraseñas y devuelve un valor booleano que indica si son iguales o no.
-//     const contrasenaValid = await bcrypt.compare(contrasena, correoExist.contrasena);
-//     //retorna un mensaje si la contraseña es incorrecta
-//     if(!contrasenaValid){
-//         return res.status(400).json({
-//             msg: 'Contraseña Incorrecta'
-//         })
-//     }
-//     //Si la contraseña es válida, se genera un token de autenticación utilizando la 
-//     //biblioteca jsonwebtoken (jwt.sign). 
-//         // const datos = await Cuenta.findAll(
-//         //     {where: {correo: correo},
-//         //     attributes: ['usuario', 'correo', 'fk_id_rol']})
-//     const token = jwt.sign({
-//         correo: correo
-//     }, process.env.SECRET_KEY || 'admin');
-//     //se devuelve una respuesta JSON que contiene el token generado.
-//     res.json({token});
-// }

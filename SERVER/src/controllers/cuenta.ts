@@ -73,6 +73,15 @@ export const loginUser = async (req: Request, res: Response) => {
         return res.status(400).json({
             msg: `No existe un usuario con el nombre ${correo} en la base datos`
         })
+<<<<<<< HEAD
+    }
+
+    const datos = await Cuenta.findOne({where: {correo : correo},
+        attributes: ['fk_id_rol']
+    })
+    //Si la contraseña es válida, se genera un token de autenticación utilizando la 
+    //biblioteca jsonwebtoken (jwt.sign). 
+=======
    }
 
    // Validamos password
@@ -129,12 +138,19 @@ export const loginUser = async (req: Request, res: Response) => {
 //         //     {where: {correo: correo},
 //         //     attributes: ['usuario', 'correo', 'fk_id_rol']})
     
+>>>>>>> e2a9501b25ed24783f58392443080a1b9f7fb024
 
 //     const token = jwt.sign({
 //         correo: correo
 //     }, process.env.SECRET_KEY || 'admin');
 
 
+<<<<<<< HEAD
+    //se devuelve una respuesta JSON que contiene el token generado.
+    res.json({token, datos});
+}
+=======
 //     //se devuelve una respuesta JSON que contiene el token generado.
 //     res.json({token});
 // }
+>>>>>>> e2a9501b25ed24783f58392443080a1b9f7fb024

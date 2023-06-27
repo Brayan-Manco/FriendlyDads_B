@@ -6,16 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const validateToken = (req, res, next) => {
     const headerToken = req.headers['authorization'];
-    if (headerToken != undefined && headerToken.startsWith('Bearer ')) {
-        // Tiene token
+    if (headerToken != undefined && headerToken.startsWith('Bearer')) {
+        //tiene token
         try {
-            const bearerToken = headerToken.slice(7);
-            jsonwebtoken_1.default.verify(bearerToken, process.env.SECRET_KEY || 'pepito123');
-            next();
+            const bearerToken = headerToken.slice(7); // .slice es que empieza despues del numero que 
+            //se coloque dentro de los ()
+            jsonwebtoken_1.default.verify(bearerToken, process.env.SECRET_KEY || 'admin'); //verifica el token y se firma con 
+            // conestra contraseña secreta
+            next(); //next significa que continua
         }
         catch (error) {
             res.status(401).json({
-                msg: 'token no valido'
+                msg: 'TOKEN NO VALIDO'
             });
         }
     }
