@@ -25,4 +25,6 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
 
 }
 
+//find
+
 export default validateToken;

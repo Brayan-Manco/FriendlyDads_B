@@ -25,4 +25,5 @@ const validateToken = (req, res, next) => {
         });
     }
 };
+//find
 exports.default = validateToken;
