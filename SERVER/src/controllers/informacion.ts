@@ -5,8 +5,8 @@ import { Op } from 'sequelize';
 
 //crear 
 export const newInfo = async(req: Request, res: Response)=>{
-    
-    const {fk_id_clasificacion,fk_id_admin, nombre} = req.body;
+
+    const {fk_id_clasificacion,fk_id_admin, nombre, descripcion} = req.body;
 
     let doc ="";
     if(req.file){
@@ -16,7 +16,8 @@ export const newInfo = async(req: Request, res: Response)=>{
         await Informacion.create({
             archivo: doc,
             fk_id_clasificacion: fk_id_clasificacion,
-            fk_id_admin,
+            descripcion: descripcion,
+            fk_id_admin: fk_id_admin,
             nombre:nombre
         })
 
@@ -60,7 +61,7 @@ export const getConsult = async (req: Request, res:Response)=>{
 //actualizar 
 export const updteInfo = async (req: Request, res:Response)=>{
 
-    const {id_info, fk_id_clasificacion,fk_id_admin, nombre} = req.body;
+    const {id_info, fk_id_clasificacion,fk_id_admin, nombre, descripcion} = req.body;
 
     let doc ="";
     if(req.file){
@@ -70,9 +71,10 @@ export const updteInfo = async (req: Request, res:Response)=>{
         await Informacion.update({
             archivo: doc,
             fk_id_clasificacion: fk_id_clasificacion,
-            fk_id_admin,
+            descripcion: descripcion,
+            fk_id_admin: fk_id_admin,
             nombre:nombre
-        },{where: {id: id_info}, returning: true})
+        },{where: {id_info: id_info}, returning: true})
 
         res.json({
             msg:'Contenido actualializado correctamente'
@@ -83,3 +85,17 @@ export const updteInfo = async (req: Request, res:Response)=>{
         })
     }
 }
+
+// export const deleteInfo = async(req:Request, res:Response)=>{
+//     const {id_info} = req.body;
+
+//     try{
+//         await Informacion.delete({
+
+//         })
+//     }catch (error){
+//         console.error('Error al eliminar la información');
+//     }
+// }
+
+

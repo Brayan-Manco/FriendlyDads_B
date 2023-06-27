@@ -14,7 +14,7 @@ const tbl_informacion_1 = require("../models/tbl_informacion");
 const sequelize_1 = require("sequelize");
 //crear 
 const newInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { fk_id_clasificacion, fk_id_admin, nombre } = req.body;
+    const { fk_id_clasificacion, fk_id_admin, nombre, descripcion } = req.body;
     let doc = "";
     if (req.file) {
         doc = req.file.filename;
@@ -23,7 +23,8 @@ const newInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         yield tbl_informacion_1.Informacion.create({
             archivo: doc,
             fk_id_clasificacion: fk_id_clasificacion,
-            fk_id_admin,
+            descripcion: descripcion,
+            fk_id_admin: fk_id_admin,
             nombre: nombre
         });
         res.json({
@@ -61,7 +62,7 @@ const getConsult = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getConsult = getConsult;
 //actualizar 
 const updteInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id_info, fk_id_clasificacion, fk_id_admin, nombre } = req.body;
+    const { id_info, fk_id_clasificacion, fk_id_admin, nombre, descripcion } = req.body;
     let doc = "";
     if (req.file) {
         doc = req.file.filename;
@@ -70,9 +71,10 @@ const updteInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         yield tbl_informacion_1.Informacion.update({
             archivo: doc,
             fk_id_clasificacion: fk_id_clasificacion,
-            fk_id_admin,
+            descripcion: descripcion,
+            fk_id_admin: fk_id_admin,
             nombre: nombre
-        }, { where: { id: id_info }, returning: true });
+        }, { where: { id_info: id_info }, returning: true });
         res.json({
             msg: 'Contenido actualializado correctamente'
         });
@@ -84,3 +86,12 @@ const updteInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.updteInfo = updteInfo;
+// export const deleteInfo = async(req:Request, res:Response)=>{
+//     const {id_info} = req.body;
+//     try{
+//         await Informacion.delete({
+//         })
+//     }catch (error){
+//         console.error('Error al eliminar la información');
+//     }
+// }
