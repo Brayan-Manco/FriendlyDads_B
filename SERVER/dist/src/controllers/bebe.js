@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBebes = exports.newBebe = void 0;
 const tbl_bebe_1 = require("../models/tbl_bebe");
+const tbl_usuario_1 = require("../models/tbl_usuario");
 const newBebe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nombre_completo, fk_id_tipo_doc, numero_i, edad, fk_id_usuario } = req.body;
     const numeroExist = yield tbl_bebe_1.Bebe.findOne({ where: { numero_i: numero_i } });
@@ -39,7 +40,7 @@ const newBebe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.newBebe = newBebe;
 const getBebes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listBebes = yield tbl_bebe_1.Bebe.findAll();
+    const listBebes = yield tbl_bebe_1.Bebe.findAll({ include: tbl_usuario_1.Usuario });
     res.json({ listBebes });
 });
 exports.getBebes = getBebes;

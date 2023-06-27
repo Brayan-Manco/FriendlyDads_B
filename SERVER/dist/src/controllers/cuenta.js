@@ -16,6 +16,7 @@ exports.loginUser = exports.getCuenta = exports.newCuenta = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const tbl_cuenta_1 = require("../models/tbl_cuenta");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const tbl_rol_1 = require("../models/tbl_rol");
 const newCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //extraemos los datos necesarios de la solicitud (req.body), 
     //como el usuario,correo electrónico, la contraseñay el rol.
@@ -62,7 +63,7 @@ const newCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.newCuenta = newCuenta;
 const getCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //se hace un consulda a base datos mediante mediante la funcion Cuenta.findAll()
-    const listCuenta = yield tbl_cuenta_1.Cuenta.findAll();
+    const listCuenta = yield tbl_cuenta_1.Cuenta.findAll({ include: tbl_rol_1.Rol });
     //se devuelve la lista de cuentas como respuesta en formato JSON utilizando 
     //la función res.json(). Esto envía la lista de cuentas al cliente que realizó la solicitud.
     res.json(listCuenta);
@@ -84,6 +85,9 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             msg: `Password Incorrecta`
         });
     }
+    //    const token = jwt.sign({
+    //     correo: Cuenta.correo, 
+    //    }, process.env.SECRET_KEY || 'pepito123');
     // Generamos token
     const token = jsonwebtoken_1.default.sign({
         correo: correo

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { Cuenta } from '../models/tbl_cuenta';
 import jwt from 'jsonwebtoken';
+import { Rol } from '../models/tbl_rol';
 
 export const newCuenta = async (req: Request, res: Response) => {
     
@@ -50,11 +51,10 @@ export const newCuenta = async (req: Request, res: Response) => {
     }
 }
 
-export const getCuenta = async (req: Request, res: Response )=>{
+export const getCuenta = async (req: Request, res: Response)=>{
 
     //se hace un consulda a base datos mediante mediante la funcion Cuenta.findAll()
-    
-    const listCuenta = await Cuenta.findAll();
+    const listCuenta = await Cuenta.findAll({ include: Rol});
     //se devuelve la lista de cuentas como respuesta en formato JSON utilizando 
     //la función res.json(). Esto envía la lista de cuentas al cliente que realizó la solicitud.
     res.json(listCuenta)
@@ -83,6 +83,11 @@ export const loginUser = async (req: Request, res: Response) => {
     })
    }
 
+   
+//    const token = jwt.sign({
+//     correo: Cuenta.correo, 
+//    }, process.env.SECRET_KEY || 'pepito123');
+   
    // Generamos token
    const token = jwt.sign({
     correo: correo

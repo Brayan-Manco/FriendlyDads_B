@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getConsult = exports.getInformacion = exports.newInfo = void 0;
+exports.updteInfo = exports.getConsult = exports.getInformacion = exports.newInfo = void 0;
 const tbl_informacion_1 = require("../models/tbl_informacion");
 const sequelize_1 = require("sequelize");
+//crear 
 const newInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { fk_id_clasificacion, fk_id_admin, nombre } = req.body;
     let doc = "";
@@ -36,11 +37,13 @@ const newInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.newInfo = newInfo;
+//obtener
 const getInformacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listInfo = yield tbl_informacion_1.Informacion.findAll();
     res.json(listInfo);
 });
 exports.getInformacion = getInformacion;
+//consult
 const getConsult = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { search } = req.body;
     try {
@@ -56,3 +59,28 @@ const getConsult = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getConsult = getConsult;
+//actualizar 
+const updteInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id_info, fk_id_clasificacion, fk_id_admin, nombre } = req.body;
+    let doc = "";
+    if (req.file) {
+        doc = req.file.filename;
+    }
+    try {
+        yield tbl_informacion_1.Informacion.update({
+            archivo: doc,
+            fk_id_clasificacion: fk_id_clasificacion,
+            fk_id_admin,
+            nombre: nombre
+        }, { where: { id: id_info }, returning: true });
+        res.json({
+            msg: 'Contenido actualializado correctamente'
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: 'ERROR ACTUALIZAR CONTENIDO', error
+        });
+    }
+});
+exports.updteInfo = updteInfo;
