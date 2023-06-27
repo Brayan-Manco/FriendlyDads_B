@@ -95,3 +95,4 @@ exports.updteInfo = updteInfo;
 //         console.error('Error al eliminar la información');
 //     }
 // }
+//find
