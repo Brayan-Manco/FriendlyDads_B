@@ -129,10 +129,11 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             msg: 'Contraseña Incorrecta'
         });
     }
+    const datos = yield tbl_cuenta_1.Cuenta.findOne({ where: { correo: correo },
+        attributes: ['fk_id_rol']
+    });
     //Si la contraseña es válida, se genera un token de autenticación utilizando la 
     //biblioteca jsonwebtoken (jwt.sign). 
-    const datos = yield tbl_cuenta_1.Cuenta.findAll({ where: { correo: correo },
-        attributes: ['usuario', 'correo', 'fk_id_rol'] });
     const token = jsonwebtoken_1.default.sign({
         correo: correo
     }, process.env.SECRET_KEY || 'admin');

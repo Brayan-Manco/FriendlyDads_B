@@ -9,7 +9,7 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
         try {
             const bearerToken = headerToken.slice(7); // .slice es que empieza despues del numero que 
             //se coloque dentro de los ()
-            jwt.verify(bearerToken,  process.env.SECRET_KEY || 'admin'); //veryfica el token y se firma con 
+            jwt.verify(bearerToken,  process.env.SECRET_KEY || 'admin'); //verifica el token y se firma con 
             // conestra contraseña secreta
             next() //next significa que continua
         } catch (error) {
