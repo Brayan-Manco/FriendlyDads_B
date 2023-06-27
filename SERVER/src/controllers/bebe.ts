@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Bebe } from "../models/tbl_bebe";
+import { Usuario } from "../models/tbl_usuario";
 
 
 export const newBebe = async (req: Request, res: Response)=>{
@@ -30,7 +31,7 @@ export const newBebe = async (req: Request, res: Response)=>{
 }
 
 export const getBebes = async(req: Request, res: Response)=>{
-    const listBebes = await Bebe.findAll();
+    const listBebes = await Bebe.findAll({include: Usuario});
 
     res.json({listBebes})
 }

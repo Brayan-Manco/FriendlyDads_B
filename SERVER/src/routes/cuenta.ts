@@ -8,8 +8,11 @@ const router = Router();
 
 router.get('/', getCuenta)
 
+
 router.post('/', newCuenta)
 
+
 router.post('/login', loginUser)
+
 
 export default router;

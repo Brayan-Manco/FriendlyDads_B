@@ -3,9 +3,10 @@ import { Informacion } from '../models/tbl_informacion'
 import { Op } from 'sequelize';
 
 
+//crear 
 export const newInfo = async(req: Request, res: Response)=>{
 
-    const {fk_id_clasificacion,fk_id_admin, nombre} = req.body;
+    const {fk_id_clasificacion,fk_id_admin, nombre, descripcion} = req.body;
 
     let doc ="";
     if(req.file){
@@ -15,7 +16,8 @@ export const newInfo = async(req: Request, res: Response)=>{
         await Informacion.create({
             archivo: doc,
             fk_id_clasificacion: fk_id_clasificacion,
-            fk_id_admin,
+            descripcion: descripcion,
+            fk_id_admin: fk_id_admin,
             nombre:nombre
         })
 
@@ -29,12 +31,16 @@ export const newInfo = async(req: Request, res: Response)=>{
     }
 }
 
+
+//obtener
 export const getInformacion = async (req: Request, res: Response )=>{
     const listInfo = await Informacion.findAll();
 
     res.json(listInfo)
 }
 
+
+//consult
 export const getConsult = async (req: Request, res:Response)=>{
 
     const {search } = req.body;
@@ -50,3 +56,48 @@ export const getConsult = async (req: Request, res:Response)=>{
     console.error('Error al ejecutar la consulta: ' + error);
   }
 }
+
+
+//actualizar 
+export const updteInfo = async (req: Request, res:Response)=>{
+
+    const {id_info, fk_id_clasificacion,fk_id_admin, nombre, descripcion} = req.body;
+
+    let doc ="";
+    if(req.file){
+        doc = req.file.filename;
+    }
+    try {
+        await Informacion.update({
+            archivo: doc,
+            fk_id_clasificacion: fk_id_clasificacion,
+            descripcion: descripcion,
+            fk_id_admin: fk_id_admin,
+            nombre:nombre
+        },{where: {id_info: id_info}, returning: true})
+
+        res.json({
+            msg:'Contenido actualializado correctamente'
+        })
+    } catch (error) {
+        res.status(400).json({
+            msg: 'ERROR ACTUALIZAR CONTENIDO',error
+        })
+    }
+}
+
+// export const deleteInfo = async(req:Request, res:Response)=>{
+//     const {id_info} = req.body;
+
+//     try{
+//         await Informacion.delete({
+
+//         })
+//     }catch (error){
+//         console.error('Error al eliminar la información');
+//     }
+// }
+
+//find
+
+
