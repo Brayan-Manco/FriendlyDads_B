@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const validateToken = (req, res, next) => {
     const headerToken = req.headers['authorization'];
-    if (headerToken != undefined && headerToken.startsWith('Bearer')) {
-        //tiene token
+    if (headerToken != undefined && headerToken.startsWith('Bearer ')) {
+        // Tiene token
         try {
             const bearerToken = headerToken.slice(7); // .slice es que empieza despues del numero que 
             //se coloque dentro de los ()
@@ -17,7 +17,7 @@ const validateToken = (req, res, next) => {
         }
         catch (error) {
             res.status(401).json({
-                msg: 'TOKEN NO VALIDO'
+                msg: 'token no valido'
             });
         }
     }
