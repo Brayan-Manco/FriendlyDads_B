@@ -8,11 +8,9 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
     if (headerToken != undefined && headerToken.startsWith('Bearer ')) {
         // Tiene token
         try {
-            const bearerToken = headerToken.slice(7); // .slice es que empieza despues del numero que 
-            //se coloque dentro de los ()
-            jwt.verify(bearerToken,  process.env.SECRET_KEY || 'admin123'); //verifica el token y se firma con 
-            // conestra contraseña secreta
-            next() //next significa que continua
+            const bearerToken = headerToken.slice(7);
+            jwt.verify(bearerToken, process.env.SECRET_KEY || 'friendlydads');
+            next()
         } catch (error) {
             res.status(401).json({
                 msg: 'token no valido'
@@ -27,6 +25,6 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
 
 }
 
-//find
+
 
 export default validateToken;

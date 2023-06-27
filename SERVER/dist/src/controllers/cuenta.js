@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUser = exports.getCuenta = exports.newCuenta = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const tbl_cuenta_1 = require("../models/tbl_cuenta");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const tbl_rol_1 = require("../models/tbl_rol");
 const newCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //extraemos los datos necesarios de la solicitud (req.body), 
@@ -77,11 +78,20 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             msg: `No existe un usuario con el nombre ${correo} en la base datos`
         });
     }
-    const datos = yield tbl_cuenta_1.Cuenta.findOne({ where: { correo: correo },
-        attributes: ['fk_id_rol']
-    });
+    const datos = yield tbl_cuenta_1.Cuenta.findOne({ where: { correo: correo } });
     //Si la contraseña es válida, se genera un token de autenticación utilizando la 
     //biblioteca jsonwebtoken (jwt.sign). 
-    res.json({ token, datos });
+    // Validamos password
+    const passwordValid = yield bcrypt_1.default.compare(contrasena, cuenta.contrasena);
+    if (!passwordValid) {
+        return res.status(400).json({
+            msg: `Password Incorrecta`
+        });
+    }
+    // Generamos token
+    const token = jsonwebtoken_1.default.sign({
+        correo: correo
+    }, process.env.SECRET_KEY || 'admin');
+    res.json(token);
 });
 exports.loginUser = loginUser;
