@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getClasificacion = exports.newClasificacion = void 0;
+exports.deleteClasi = exports.getIdClasi = exports.getClasificacion = exports.newClasificacion = void 0;
 const tbl_clasificacion_1 = require("../models/tbl_clasificacion");
+//crear
 const newClasificacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { clasificacion, descripcion } = req.body;
     let foto = "";
@@ -40,8 +41,39 @@ const newClasificacion = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.newClasificacion = newClasificacion;
+//obtener todos
 const getClasificacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listClasificacion = yield tbl_clasificacion_1.Clasificacion.findAll();
     res.json({ listClasificacion });
 });
 exports.getClasificacion = getClasificacion;
+//obtener por el id
+const getIdClasi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const id_clasi = yield tbl_clasificacion_1.Clasificacion.findByPk(id);
+    if (id) {
+        res.json(id_clasi);
+    }
+    else {
+        res.status(400).json({
+            msg: 'Clasificacion no encontrada'
+        });
+    }
+});
+exports.getIdClasi = getIdClasi;
+//eliminar
+const deleteClasi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        yield tbl_clasificacion_1.Clasificacion.destroy({ where: { id_clasificacion: id } });
+        res.json({
+            msg: 'Clasificacion eliminada correctamente'
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: 'ERROR DELETE CLASI', error
+        });
+    }
+});
+exports.deleteClasi = deleteClasi;

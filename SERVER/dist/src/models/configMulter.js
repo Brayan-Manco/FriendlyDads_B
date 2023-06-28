@@ -28,6 +28,6 @@ exports.upload = upload;
 // Ruta para obtener la imagen
 const getUploadedFile = (req, res) => {
     const filename = req.params.filename;
-    res.sendFile(path_1.default.join(__dirname, "../uploads", filename));
+    res.sendFile(path_1.default.join(__dirname, "../uploads/", filename));
 };
 exports.getUploadedFile = getUploadedFile;

@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteInfo = exports.updteInfo = exports.getConsult = exports.getIdInfo = exports.getInformacion = exports.newInfo = void 0;
 const tbl_informacion_1 = require("../models/tbl_informacion");
 const sequelize_1 = require("sequelize");
+const tbl_clasificacion_1 = require("../models/tbl_clasificacion");
+const tbl_administrador_1 = require("../models/tbl_administrador");
 //crear 
 const newInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { fk_id_clasificacion, fk_id_admin, nombre, descripcion } = req.body;
@@ -40,7 +42,12 @@ const newInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.newInfo = newInfo;
 //obtener
 const getInformacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listInfo = yield tbl_informacion_1.Informacion.findAll();
+    const listInfo = yield tbl_informacion_1.Informacion.findAll({
+        include: [
+            { model: tbl_clasificacion_1.Clasificacion, attributes: ['clasificacion'] },
+            { model: tbl_administrador_1.Administrador, attributes: ['nombres'] }
+        ]
+    });
     res.json(listInfo);
 });
 exports.getInformacion = getInformacion;

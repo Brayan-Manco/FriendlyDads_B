@@ -7,6 +7,6 @@ const router = Router();
 
 router.post('/',upload.single('foto'),newUsuario);
 
-router.get('/', validateToken,getUsuario);
+router.get('/',getUsuario);
 
 export default router;

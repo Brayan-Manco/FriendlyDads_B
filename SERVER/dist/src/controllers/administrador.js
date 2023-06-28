@@ -11,6 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAdmin = exports.newAdmin = void 0;
 const tbl_administrador_1 = require("../models/tbl_administrador");
+const tbl_tipo_doc_1 = require("../models/tbl_tipo_doc");
+const tbl_cuenta_1 = require("../models/tbl_cuenta");
 const newAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nombres, apellidos, fk_id_tipo_doc, numero_i, edad, fk_id_cuenta } = req.body;
     let foto = "";
@@ -52,7 +54,12 @@ const newAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.newAdmin = newAdmin;
 const getAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listAdmin = yield tbl_administrador_1.Administrador.findAll();
+    //include sirve para poder extraer los datos por relaciones
+    const listAdmin = yield tbl_administrador_1.Administrador.findAll({ include: [
+            //modelo por relacion y el atriutes son los campos que se extraen de la relacion
+            { model: tbl_tipo_doc_1.Tipo_doc, attributes: ['tipo_doc'] },
+            { model: tbl_cuenta_1.Cuenta, attributes: ['correo'] }
+        ] });
     res.json({ listAdmin });
 });
 exports.getAdmin = getAdmin;

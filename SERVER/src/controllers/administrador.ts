@@ -1,5 +1,7 @@
 import { Response, Request } from "express";
 import { Administrador } from "../models/tbl_administrador";
+import { Tipo_doc } from "../models/tbl_tipo_doc";
+import { Cuenta } from "../models/tbl_cuenta";
 
 
 export const newAdmin = async(req:Request , res: Response)=>{
@@ -51,7 +53,12 @@ export const newAdmin = async(req:Request , res: Response)=>{
 
 
 export const getAdmin = async (req: Request, res: Response)=>{
-    const listAdmin = await Administrador.findAll();
+    //include sirve para poder extraer los datos por relaciones
+    const listAdmin = await Administrador.findAll({include: [
+        //modelo por relacion y el atriutes son los campos que se extraen de la relacion
+        {model: Tipo_doc, attributes: ['tipo_doc']},
+        {model: Cuenta, attributes: ['correo']}
+    ]});
 
     res.json({listAdmin})
 }

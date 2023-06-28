@@ -1,6 +1,8 @@
 import {Request, Response} from 'express'
 import { Informacion } from '../models/tbl_informacion'
-import { Op } from 'sequelize';
+import { Op, and } from 'sequelize';
+import { Clasificacion } from '../models/tbl_clasificacion';
+import { Administrador } from '../models/tbl_administrador';
 
 
 //crear 
@@ -34,7 +36,12 @@ export const newInfo = async(req: Request, res: Response)=>{
 
 //obtener
 export const getInformacion = async (req: Request, res: Response )=>{
-    const listInfo = await Informacion.findAll();
+
+    const listInfo = await Informacion.findAll({
+        include: [
+            { model: Clasificacion, attributes:['clasificacion']}, 
+            { model:Administrador, attributes: ['nombres']}]
+    });
 
     res.json(listInfo)
 }

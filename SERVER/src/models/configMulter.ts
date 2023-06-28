@@ -28,7 +28,7 @@ const upload = multer({ storage: storage });
 
 const getUploadedFile = (req: Request, res:Response) => {
     const filename = req.params.filename;
-    res.sendFile(path.join(__dirname, "../uploads", filename));
+    res.sendFile(path.join(__dirname, "../uploads/", filename));
 };
 
 

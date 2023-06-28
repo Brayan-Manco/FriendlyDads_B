@@ -4,8 +4,8 @@ import { getTipo_doc, newTipoD } from "../controllers/tipo_doc";
 
 const router = Router();
 
-router.post('/', newTipoD)
+router.post('/new', newTipoD)
 
-router.get('/',validateToken, getTipo_doc);
+router.get('/', getTipo_doc);
 
 export default router;

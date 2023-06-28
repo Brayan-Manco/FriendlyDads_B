@@ -7,6 +7,6 @@ const router = Router();
 
 router.post('/',newBebe)
 
-router.get('/', validateToken, getBebes);
+router.get('/', getBebes);
 
 export default router;

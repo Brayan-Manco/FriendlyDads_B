@@ -16,7 +16,8 @@ const storageDocs = multer.diskStorage({
         //concatenado con un número aleatorio generado con el Math.round(Math.random()
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
         const fileExtension = file.originalname.split(".").pop(); //.split separa y el .pop eliminar
-        const filename = uniqueSuffix + "." + fileExtension;
+        const ubic = "../docs/";
+        const filename = ubic + uniqueSuffix + "." + fileExtension;
         cb(null, filename); // Nombre de archivo único
     },
 });

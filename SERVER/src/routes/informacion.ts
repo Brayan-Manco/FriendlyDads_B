@@ -9,7 +9,7 @@ router.put('/update/:id',uploadDocs.single("doc"), updteInfo)
 
 router.post('/create',uploadDocs.single("doc"), newInfo);
 
-router.get('/find', validateToken, getInformacion);
+router.get('/find', getInformacion);
 
 router.post('/search',getConsult);
 

@@ -31,7 +31,8 @@ export const newBebe = async (req: Request, res: Response)=>{
 }
 
 export const getBebes = async(req: Request, res: Response)=>{
-    const listBebes = await Bebe.findAll({include: Usuario});
+    const listBebes = await Bebe.findAll(
+        {include: Usuario});
 
     res.json({listBebes})
 }
