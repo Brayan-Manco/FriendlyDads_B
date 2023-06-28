@@ -10,7 +10,7 @@ const validateToken = (req, res, next) => {
         // Tiene token
         try {
             const bearerToken = headerToken.slice(7);
-            jsonwebtoken_1.default.verify(bearerToken, process.env.SECRET_KEY || 'friendlydads');
+            jsonwebtoken_1.default.verify(bearerToken, process.env.SECRET_KEY || 'pepito123');
             next();
         }
         catch (error) {

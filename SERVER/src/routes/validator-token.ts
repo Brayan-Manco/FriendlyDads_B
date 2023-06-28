@@ -9,7 +9,7 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
         // Tiene token
         try {
             const bearerToken = headerToken.slice(7);
-            jwt.verify(bearerToken, process.env.SECRET_KEY || 'friendlydads');
+            jwt.verify(bearerToken, process.env.SECRET_KEY || 'pepito123');
             next()
         } catch (error) {
             res.status(401).json({
@@ -24,7 +24,5 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
     }
 
 }
-
-
 
 export default validateToken;

@@ -87,7 +87,6 @@ export const loginUser = async (req: Request, res: Response) => {
         msg: `Password Incorrecta`
     })
    }
-
    // Generamos token
    const token = jwt.sign({
     correo: correo

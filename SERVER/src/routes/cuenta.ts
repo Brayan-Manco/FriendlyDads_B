@@ -6,11 +6,9 @@ import validateToken from './validator-token';
 const router = Router();
 
 
-router.get('/', getCuenta)
-
+router.get('/',validateToken, getCuenta)
 
 router.post('/', newCuenta)
-
 
 router.post('/login', loginUser)
 

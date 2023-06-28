@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updteInfo = exports.getConsult = exports.getInformacion = exports.newInfo = void 0;
+exports.deleteInfo = exports.updteInfo = exports.getConsult = exports.getIdInfo = exports.getInformacion = exports.newInfo = void 0;
 const tbl_informacion_1 = require("../models/tbl_informacion");
 const sequelize_1 = require("sequelize");
 //crear 
@@ -44,6 +44,26 @@ const getInformacion = (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.json(listInfo);
 });
 exports.getInformacion = getInformacion;
+//obtener por id
+const getIdInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const Info = yield tbl_informacion_1.Informacion.findByPk(id);
+    // try {
+    if (Info) {
+        res.json(Info);
+    }
+    else {
+        res.status(404).json({
+            msg: 'No se encontro informacion por el id '
+        });
+    }
+    // } catch (error) {
+    //     res.status(400).json({
+    //         msg: 'ERROR FIND INFO'
+    //     })
+    // }
+});
+exports.getIdInfo = getIdInfo;
 //consult
 const getConsult = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { search } = req.body;
@@ -62,7 +82,8 @@ const getConsult = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getConsult = getConsult;
 //actualizar 
 const updteInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id_info, fk_id_clasificacion, fk_id_admin, nombre, descripcion } = req.body;
+    const { id } = req.params;
+    const { fk_id_clasificacion, fk_id_admin, nombre, descripcion } = req.body;
     let doc = "";
     if (req.file) {
         doc = req.file.filename;
@@ -74,7 +95,7 @@ const updteInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             descripcion: descripcion,
             fk_id_admin: fk_id_admin,
             nombre: nombre
-        }, { where: { id_info: id_info }, returning: true });
+        }, { where: { id_info: id }, returning: true });
         res.json({
             msg: 'Contenido actualializado correctamente'
         });
@@ -86,13 +107,19 @@ const updteInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.updteInfo = updteInfo;
-// export const deleteInfo = async(req:Request, res:Response)=>{
-//     const {id_info} = req.body;
-//     try{
-//         await Informacion.delete({
-//         })
-//     }catch (error){
-//         console.error('Error al eliminar la información');
-//     }
-// }
-//find
+//delete
+const deleteInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        yield tbl_informacion_1.Informacion.destroy({ where: { id_info: id } });
+        res.json({
+            mesg: 'Infomacion borrada correctamente'
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: 'ERROR DELETE INFO',
+        });
+    }
+});
+exports.deleteInfo = deleteInfo;

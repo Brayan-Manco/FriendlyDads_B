@@ -8,6 +8,6 @@ const router = Router();
 
 router.post('/',upload.single('foto'), newClasificacion);
 
-router.get('/', validateToken, getClasificacion);
+router.get('/find', getClasificacion);
 
 export default router;

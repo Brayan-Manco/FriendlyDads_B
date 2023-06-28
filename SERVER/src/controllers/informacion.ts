@@ -39,6 +39,30 @@ export const getInformacion = async (req: Request, res: Response )=>{
     res.json(listInfo)
 }
 
+//obtener por id
+export const getIdInfo = async (req: Request, res:Response)=>{
+    const {id} = req.params;
+
+    const Info = await Informacion.findByPk(id);
+
+
+    // try {
+        if(Info) {
+            res.json(Info);
+        }else{
+            res.status(404).json({
+                msg: 'No se encontro informacion por el id '
+            })
+        }
+    // } catch (error) {
+
+    //     res.status(400).json({
+    //         msg: 'ERROR FIND INFO'
+    //     })
+
+    // }
+}
+
 
 //consult
 export const getConsult = async (req: Request, res:Response)=>{
@@ -61,7 +85,8 @@ export const getConsult = async (req: Request, res:Response)=>{
 //actualizar 
 export const updteInfo = async (req: Request, res:Response)=>{
 
-    const {id_info, fk_id_clasificacion,fk_id_admin, nombre, descripcion} = req.body;
+    const {id} = req.params;
+    const {fk_id_clasificacion,fk_id_admin, nombre, descripcion} = req.body;
 
     let doc ="";
     if(req.file){
@@ -74,7 +99,7 @@ export const updteInfo = async (req: Request, res:Response)=>{
             descripcion: descripcion,
             fk_id_admin: fk_id_admin,
             nombre:nombre
-        },{where: {id_info: id_info}, returning: true})
+        },{where: {id_info: id}, returning: true})
 
         res.json({
             msg:'Contenido actualializado correctamente'
@@ -86,18 +111,23 @@ export const updteInfo = async (req: Request, res:Response)=>{
     }
 }
 
-// export const deleteInfo = async(req:Request, res:Response)=>{
-//     const {id_info} = req.body;
 
-//     try{
-//         await Informacion.delete({
+//delete
+export const deleteInfo = async(req:Request, res:Response)=>{
+    const {id} = req.params;
 
-//         })
-//     }catch (error){
-//         console.error('Error al eliminar la información');
-//     }
-// }
+    try{
+        
+        await Informacion.destroy({where: {id_info : id}})
+        res.json({ 
+            mesg: 'Infomacion borrada correctamente'
+        })
 
-//find
+    }catch (error){
+        res.status(400).json({
+            msg: 'ERROR DELETE INFO',
+        })
+    }
+}
 
 
