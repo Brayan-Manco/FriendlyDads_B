@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteClasi = exports.getIdClasi = exports.getClasi = exports.getClasificacion = exports.newClasificacion = void 0;
+exports.updateClasi = exports.deleteClasi = exports.getIdClasi = exports.getClasi = exports.getClasificacion = exports.newClasificacion = void 0;
 const tbl_clasificacion_1 = require("../models/tbl_clasificacion");
 //crear
 const newClasificacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -83,3 +83,34 @@ const deleteClasi = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.deleteClasi = deleteClasi;
+const updateClasi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { clasificacion, descripcion } = req.body;
+    let foto = "";
+    if (req.file) {
+        foto = req.file.filename;
+    }
+    const clasificacionExist = yield tbl_clasificacion_1.Clasificacion.findOne({ where: { clasificacion: clasificacion } });
+    if (clasificacionExist) {
+        return res.status(400).json({
+            msg: `Ya existe la clasificacion ${clasificacion}`
+        });
+    }
+    console.log(id);
+    try {
+        yield tbl_clasificacion_1.Clasificacion.update({
+            clasificacion: clasificacion,
+            descripcion: descripcion,
+            foto: foto
+        }, { where: { id_clasificacion: id }, returning: true });
+        res.json({
+            msg: 'Contenido actualializado correctamente'
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: 'ERROR ACTUALIZAR CONTENIDO', error
+        });
+    }
+});
+exports.updateClasi = updateClasi;

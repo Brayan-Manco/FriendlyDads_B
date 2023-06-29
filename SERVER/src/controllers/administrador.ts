@@ -25,7 +25,7 @@ export const newAdmin = async(req:Request , res: Response)=>{
     }
     if(fk_id_cuentaExist){
         return res.status(400).json({
-            msg: `ya hay una cuenta asocida a ${fk_id_cuenta}`
+            msg: `Ya hay una cuenta asocida a ${fk_id_cuenta}`
         })
     }
 
