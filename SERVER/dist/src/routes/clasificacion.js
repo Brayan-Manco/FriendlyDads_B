@@ -9,4 +9,5 @@ router.post('/', configMulter_1.upload.single('foto'), clasificacion_1.newClasif
 router.get('/findClasi', clasificacion_1.getClasi);
 router.get('/find', clasificacion_1.getClasificacion);
 router.get('/find/:id', clasificacion_1.getIdClasi);
+router.put('/update/:id', configMulter_1.upload.single('foto'), clasificacion_1.updateClasi);
 exports.default = router;
