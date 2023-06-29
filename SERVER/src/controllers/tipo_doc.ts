@@ -36,7 +36,7 @@ export const newTipoD = async (req:Request, res: Response)=>{
 }
 
 export const getTipo_doc = async(req: Request, res: Response)=>{
-    const listTipo_doc = await Tipo_doc.findAll();
+    const listTipo_doc = await Tipo_doc.findAll({attributes: ['id_tipo_doc', 'tipo_doc']});
 
     res.json(listTipo_doc)
 }

@@ -42,7 +42,7 @@ const newTipoD = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.newTipoD = newTipoD;
 const getTipo_doc = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listTipo_doc = yield tbl_tipo_doc_1.Tipo_doc.findAll();
+    const listTipo_doc = yield tbl_tipo_doc_1.Tipo_doc.findAll({ attributes: ['id_tipo_doc', 'tipo_doc'] });
     res.json(listTipo_doc);
 });
 exports.getTipo_doc = getTipo_doc;
