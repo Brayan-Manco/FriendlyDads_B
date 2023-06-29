@@ -50,6 +50,13 @@ export const newAdmin = async(req:Request , res: Response)=>{
     }
 }
 
+export const getAdminCreate = async (req: Request, res: Response )=>{
+
+    const listClasi = await Administrador.findAll({attributes:['id_admin','nombres']});
+
+    res.json(listClasi)
+}
+
 
 
 export const getAdmin = async (req: Request, res: Response)=>{

@@ -3,7 +3,6 @@ import validateToken from "./validator-token";
 import { deleteClasi, getClasi, getClasificacion, getIdClasi, newClasificacion, updateClasi } from "../controllers/clasificacion";
 import { upload } from "../models/configMulter";
 
-
 const router = Router();
 
 router.delete('/delete/:id', deleteClasi)

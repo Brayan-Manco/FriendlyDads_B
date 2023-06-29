@@ -47,10 +47,9 @@ const getClasificacion = (req, res) => __awaiter(void 0, void 0, void 0, functio
     res.json({ listClasificacion });
 });
 exports.getClasificacion = getClasificacion;
-//obtener 
 const getClasi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listClasi = yield tbl_clasificacion_1.Clasificacion.findAll({ attributes: ['id_clasificacion', 'clasificacion'] });
-    res.json({ listClasi });
+    res.json(listClasi);
 });
 exports.getClasi = getClasi;
 //obtener por el id

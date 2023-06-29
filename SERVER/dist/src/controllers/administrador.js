@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAdmin = exports.newAdmin = void 0;
+exports.getAdmin = exports.getAdminCreate = exports.newAdmin = void 0;
 const tbl_administrador_1 = require("../models/tbl_administrador");
 const tbl_tipo_doc_1 = require("../models/tbl_tipo_doc");
 const tbl_cuenta_1 = require("../models/tbl_cuenta");
@@ -53,6 +53,11 @@ const newAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.newAdmin = newAdmin;
+const getAdminCreate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const listClasi = yield tbl_administrador_1.Administrador.findAll({ attributes: ['id_admin', 'nombres'] });
+    res.json(listClasi);
+});
+exports.getAdminCreate = getAdminCreate;
 const getAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //include sirve para poder extraer los datos por relaciones
     const listAdmin = yield tbl_administrador_1.Administrador.findAll({ include: [

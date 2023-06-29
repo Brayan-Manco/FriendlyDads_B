@@ -62,35 +62,62 @@ export const getCuenta = async (req: Request, res: Response)=>{
 
 
 
-export const loginUser = async (req: Request, res: Response) => {
+// export const loginUser = async (req: Request, res: Response) => {
 
-    const {correo, contrasena} = req.body;
+//     const {correo, contrasena} = req.body;
 
-   // Validamos si el usuario existe en la base de datos
-   const cuenta: any = await Cuenta.findOne({ where: { correo: correo } });
+//    // Validamos si el usuario existe en la base de datos
+//    const cuenta: any = await Cuenta.findOne({ where: { correo: correo } });
 
-   if(!cuenta) {
-        return res.status(400).json({
-            msg: `No existe un usuario con el nombre ${correo} en la base datos`
-        })
-    }
-
-    const datos = await Cuenta.findOne({where: {correo : correo}})
-    //Si la contraseña es válida, se genera un token de autenticación utilizando la 
-    //biblioteca jsonwebtoken (jwt.sign). 
+//    if(!cuenta) {
+//         return res.status(400).json({
+//             msg: `No existe un usuario con el nombre ${correo} en la base datos`
+//         })
+//     }
+//     //Si la contraseña es válida, se genera un token de autenticación utilizando la 
+//     //biblioteca jsonwebtoken (jwt.sign). 
     
 
+//    // Validamos password
+//    const passwordValid = await bcrypt.compare(contrasena, cuenta.contrasena)
+//    if(!passwordValid) {
+//     return res.status(400).json({
+//         msg: `Password Incorrecta`
+//     })
+//    }
+//    // Generamos token
+//    const token = jwt.sign({
+//     correo: correo
+//    }, process.env.SECRET_KEY || 'admin');
+   
+//    res.json(token);
+// }
+
+export const loginUser = async (req: Request, res: Response) => {
+
+    const { correo, contrasena } = req.body;
+
+   // Validamos si el usuario existe en la base de datos
+   const user: any = await Cuenta.findOne({ where: { correo: correo } });
+
+   if(!user) {
+        return res.status(400).json({
+            msg: `No existe un correo con el nombre ${correo} en la base datos`
+        })
+   }
+
    // Validamos password
-   const passwordValid = await bcrypt.compare(contrasena, cuenta.contrasena)
+   const passwordValid = await bcrypt.compare(contrasena, user.contrasena)
    if(!passwordValid) {
     return res.status(400).json({
         msg: `Password Incorrecta`
     })
    }
+
    // Generamos token
    const token = jwt.sign({
     correo: correo
-   }, process.env.SECRET_KEY || 'admin');
+   }, process.env.SECRET_KEY || 'pepito123');
    
    res.json(token);
 }

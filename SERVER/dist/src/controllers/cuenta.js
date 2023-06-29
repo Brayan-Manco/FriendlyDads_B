@@ -69,20 +69,41 @@ const getCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json(listCuenta);
 });
 exports.getCuenta = getCuenta;
+// export const loginUser = async (req: Request, res: Response) => {
+//     const {correo, contrasena} = req.body;
+//    // Validamos si el usuario existe en la base de datos
+//    const cuenta: any = await Cuenta.findOne({ where: { correo: correo } });
+//    if(!cuenta) {
+//         return res.status(400).json({
+//             msg: `No existe un usuario con el nombre ${correo} en la base datos`
+//         })
+//     }
+//     //Si la contraseña es válida, se genera un token de autenticación utilizando la 
+//     //biblioteca jsonwebtoken (jwt.sign). 
+//    // Validamos password
+//    const passwordValid = await bcrypt.compare(contrasena, cuenta.contrasena)
+//    if(!passwordValid) {
+//     return res.status(400).json({
+//         msg: `Password Incorrecta`
+//     })
+//    }
+//    // Generamos token
+//    const token = jwt.sign({
+//     correo: correo
+//    }, process.env.SECRET_KEY || 'admin');
+//    res.json(token);
+// }
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { correo, contrasena } = req.body;
     // Validamos si el usuario existe en la base de datos
-    const cuenta = yield tbl_cuenta_1.Cuenta.findOne({ where: { correo: correo } });
-    if (!cuenta) {
+    const user = yield tbl_cuenta_1.Cuenta.findOne({ where: { correo: correo } });
+    if (!user) {
         return res.status(400).json({
-            msg: `No existe un usuario con el nombre ${correo} en la base datos`
+            msg: `No existe un correo con el nombre ${correo} en la base datos`
         });
     }
-    const datos = yield tbl_cuenta_1.Cuenta.findOne({ where: { correo: correo } });
-    //Si la contraseña es válida, se genera un token de autenticación utilizando la 
-    //biblioteca jsonwebtoken (jwt.sign). 
     // Validamos password
-    const passwordValid = yield bcrypt_1.default.compare(contrasena, cuenta.contrasena);
+    const passwordValid = yield bcrypt_1.default.compare(contrasena, user.contrasena);
     if (!passwordValid) {
         return res.status(400).json({
             msg: `Password Incorrecta`
@@ -91,7 +112,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Generamos token
     const token = jsonwebtoken_1.default.sign({
         correo: correo
-    }, process.env.SECRET_KEY || 'admin');
+    }, process.env.SECRET_KEY || 'pepito123');
     res.json(token);
 });
 exports.loginUser = loginUser;

@@ -46,7 +46,7 @@ class Server {
         })
     }
     routes() {
-        // this.app.get("/docs:filename",getUploadedFileDocs);
+        this.app.get("/docs:filename",getUploadedFileDocs);
         this.app.get("/uploads:filename", getUploadedFile);
         this.app.use('/api/info', routerInfo);
         this.app.use('/api/cuenta', routerCuenta);

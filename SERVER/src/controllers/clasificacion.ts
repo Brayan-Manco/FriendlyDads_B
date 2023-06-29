@@ -42,12 +42,14 @@ export const getClasificacion = async(req: Request, res:Response)=>{
     res.json({listClasificacion})
 }
 
-//obtener 
-export const getClasi = async (req: Request, res: Response)=>{
-    
-    const listClasi = await Clasificacion.findAll({attributes :['id_clasificacion','clasificacion']}) 
-    res.json({listClasi})
+export const getClasi = async (req: Request, res: Response )=>{
+
+    const listClasi = await Clasificacion.findAll({attributes:['id_clasificacion','clasificacion']});
+
+    res.json(listClasi)
 }
+
+
 
 
 //obtener por el id

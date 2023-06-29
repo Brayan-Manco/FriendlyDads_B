@@ -1,11 +1,13 @@
 import validateToken from "./validator-token";
 import Router from 'express';
-import { newAdmin, getAdmin } from '../controllers/administrador';
+import { newAdmin, getAdmin, getAdminCreate } from '../controllers/administrador';
 import { getUploadedFile, upload } from "../models/configMulter";
 
 const router = Router();
 
 router.get("/", getAdmin);
+
+router.get("/create", getAdminCreate);
 
 // Ruta para crear un nuevo administrador
 
