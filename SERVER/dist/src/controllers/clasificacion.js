@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteClasi = exports.getIdClasi = exports.getClasificacion = exports.newClasificacion = void 0;
+exports.deleteClasi = exports.getIdClasi = exports.getClasi = exports.getClasificacion = exports.newClasificacion = void 0;
 const tbl_clasificacion_1 = require("../models/tbl_clasificacion");
 //crear
 const newClasificacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -47,6 +47,12 @@ const getClasificacion = (req, res) => __awaiter(void 0, void 0, void 0, functio
     res.json({ listClasificacion });
 });
 exports.getClasificacion = getClasificacion;
+//obtener 
+const getClasi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const listClasi = yield tbl_clasificacion_1.Clasificacion.findAll({ attributes: ['id_clasificacion', 'clasificacion'] });
+    res.json({ listClasi });
+});
+exports.getClasi = getClasi;
 //obtener por el id
 const getIdClasi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;

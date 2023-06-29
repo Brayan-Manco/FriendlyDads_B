@@ -36,7 +36,6 @@ const tbl_bebe_1 = require("./tbl_bebe");
 const tbl_usuario_1 = require("./tbl_usuario");
 const tbl_informacion_1 = require("./tbl_informacion");
 const tbl_administrador_1 = require("./tbl_administrador");
-const docsMulter_1 = require("./docsMulter");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -52,7 +51,7 @@ class Server {
         });
     }
     routes() {
-        this.app.get("/docs:filename", docsMulter_1.getUploadedFileDocs);
+        // this.app.get("/docs:filename",getUploadedFileDocs);
         this.app.get("/uploads:filename", configMulter_1.getUploadedFile);
         this.app.use('/api/info', informacion_1.default);
         this.app.use('/api/cuenta', cuenta_1.default);
