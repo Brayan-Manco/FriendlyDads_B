@@ -1,6 +1,6 @@
 import { Router } from "express";
 import validateToken from "./validator-token";
-import { deleteClasi, getClasificacion, getIdClasi, newClasificacion } from "../controllers/clasificacion";
+import { deleteClasi, getClasificacion, getIdClasi, newClasificacion, updateClasi } from "../controllers/clasificacion";
 import { upload } from "../models/configMulter";
 
 
@@ -13,5 +13,7 @@ router.post('/',upload.single('foto'), newClasificacion);
 router.get('/find', getClasificacion);
 
 router.get('/find/:id', getIdClasi);
+
+router.put('/update/:id',upload.single('foto'), updateClasi);
 
 export default router;

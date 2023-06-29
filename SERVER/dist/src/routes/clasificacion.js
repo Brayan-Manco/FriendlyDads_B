@@ -8,4 +8,5 @@ router.delete('/delete/:id', clasificacion_1.deleteClasi);
 router.post('/', configMulter_1.upload.single('foto'), clasificacion_1.newClasificacion);
 router.get('/find', clasificacion_1.getClasificacion);
 router.get('/find/:id', clasificacion_1.getIdClasi);
+router.put('/update/:id', configMulter_1.upload.single('foto'), clasificacion_1.updateClasi);
 exports.default = router;

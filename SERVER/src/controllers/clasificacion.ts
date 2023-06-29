@@ -76,3 +76,38 @@ export const deleteClasi =async (req: Request, res: Response) => {
         })
     }
 }
+
+export const updateClasi = async (req: Request, res:Response)=>{
+
+    const {id} = req.params;
+    const {clasificacion,descripcion} = req.body;
+
+    let foto = "";
+    if (req.file) {
+        foto = req.file.filename;
+    }
+
+    const clasificacionExist = await Clasificacion.findOne({where: {clasificacion: clasificacion}});
+
+    if(clasificacionExist){
+        return res.status(400).json({
+            msg: `Ya existe la clasificacion ${clasificacion}`
+        })
+    }
+    console.log(id)
+    try {
+        await Clasificacion.update({
+            clasificacion: clasificacion,
+            descripcion: descripcion,
+            foto: foto
+        },{where: {id_clasificacion: id}, returning: true})
+
+        res.json({
+            msg:'Contenido actualializado correctamente'
+        })
+    } catch (error) {
+        res.status(400).json({
+            msg: 'ERROR ACTUALIZAR CONTENIDO',error
+        })
+    }
+}
