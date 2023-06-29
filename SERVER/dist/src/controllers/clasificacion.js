@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateClasi = exports.deleteClasi = exports.getIdClasi = exports.getClasi = exports.getClasificacion = exports.newClasificacion = void 0;
+exports.updateClasi = exports.deleteClasi = exports.getIdClasi = exports.getClasi = exports.getClasiAll = exports.newClasificacion = void 0;
 const tbl_clasificacion_1 = require("../models/tbl_clasificacion");
 //crear
 const newClasificacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -42,11 +42,11 @@ const newClasificacion = (req, res) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.newClasificacion = newClasificacion;
 //obtener todos
-const getClasificacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listClasificacion = yield tbl_clasificacion_1.Clasificacion.findAll();
-    res.json({ listClasificacion });
+const getClasiAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const listClasi = yield tbl_clasificacion_1.Clasificacion.findAll();
+    res.json(listClasi);
 });
-exports.getClasificacion = getClasificacion;
+exports.getClasiAll = getClasiAll;
 const getClasi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listClasi = yield tbl_clasificacion_1.Clasificacion.findAll({ attributes: ['id_clasificacion', 'clasificacion'] });
     res.json(listClasi);

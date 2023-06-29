@@ -36,10 +36,11 @@ export const newClasificacion =async (req: Request,res:Response) => {
 }
 
 //obtener todos
-export const getClasificacion = async(req: Request, res:Response)=>{
+export const getClasiAll = async (req: Request, res: Response )=>{
 
-    const listClasificacion = await Clasificacion.findAll();
-    res.json({listClasificacion})
+    const listClasi = await Clasificacion.findAll();
+
+    res.json(listClasi)
 }
 
 export const getClasi = async (req: Request, res: Response )=>{
