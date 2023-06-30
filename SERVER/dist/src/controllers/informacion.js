@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteInfo = exports.updteInfo = exports.getConsult = exports.getIdInfo = exports.getInformacion = exports.newInfo = void 0;
+exports.deleteInfo = exports.updteInfo = exports.getConsult = exports.getFileUpdate = exports.getIdInfo = exports.getInformacion = exports.newInfo = void 0;
 const tbl_informacion_1 = require("../models/tbl_informacion");
 const sequelize_1 = require("sequelize");
 const tbl_clasificacion_1 = require("../models/tbl_clasificacion");
@@ -71,6 +71,16 @@ const getIdInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // }
 });
 exports.getIdInfo = getIdInfo;
+const getFileUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const listInfo = yield tbl_informacion_1.Informacion.findByPk((id), { attributes: ['nombre', 'descripcion'],
+        include: [
+            { model: tbl_clasificacion_1.Clasificacion, attributes: ['id_clasificacion', 'descripcion'] },
+            { model: tbl_administrador_1.Administrador, attributes: ['id_admin', 'nombres'] }
+        ] });
+    res.json(listInfo);
+});
+exports.getFileUpdate = getFileUpdate;
 //consult
 const getConsult = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { search } = req.body;

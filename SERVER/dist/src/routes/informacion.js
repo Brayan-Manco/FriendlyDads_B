@@ -11,6 +11,7 @@ const router = (0, express_1.Router)();
 router.put('/update/:id', validator_token_1.default, docsMulter_1.uploadDocs.single("doc"), informacion_1.updteInfo);
 router.post('/create', validator_token_1.default, docsMulter_1.uploadDocs.single("doc"), informacion_1.newInfo);
 router.get('/find', validator_token_1.default, informacion_1.getInformacion);
+router.get('/findOneUpdate/:id', informacion_1.getFileUpdate);
 router.post('/search', validator_token_1.default, informacion_1.getConsult);
 router.post('/find/:id', validator_token_1.default, informacion_1.getIdInfo);
 router.delete('/delete/:id', validator_token_1.default, informacion_1.deleteInfo);

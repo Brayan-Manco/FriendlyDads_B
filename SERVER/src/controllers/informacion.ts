@@ -1,6 +1,6 @@
 import {Request, Response} from 'express'
 import { Informacion } from '../models/tbl_informacion'
-import { Op, and } from 'sequelize';
+import { Op, and, where } from 'sequelize';
 import { Clasificacion } from '../models/tbl_clasificacion';
 import { Administrador } from '../models/tbl_administrador';
 
@@ -68,6 +68,19 @@ export const getIdInfo = async (req: Request, res:Response)=>{
     //     })
 
     // }
+}
+
+export const getFileUpdate =async (req:Request, res: Response) => {
+
+    const {id} = req.params;
+
+    const listInfo = await Informacion.findByPk((id),{ attributes: ['nombre','descripcion'],
+        include: [
+            {model: Clasificacion , attributes: ['id_clasificacion', 'descripcion']},
+            {model: Administrador , attributes: ['id_admin', 'nombres']}
+        ]});
+
+    res.json(listInfo);
 }
 
 
