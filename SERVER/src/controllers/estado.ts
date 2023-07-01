@@ -29,7 +29,7 @@ export const newEstado = async(req: Request, res: Response)=>{
 }
 
 export const getEstado = async(req: Request, res: Response)=>{
-    const listEsatdo = await Estado.findAll();
+    const listEstado = await Estado.findAll({attributes: ['id_estado','estado']});
 
-    res.json({listEsatdo})
+    res.json(listEstado)
 }

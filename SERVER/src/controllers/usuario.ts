@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
 import { Usuario } from "../models/tbl_usuario";
+import { Parentesco } from "../models/tbl_parentesco";
+import { Estado } from "../models/tbl_estado";
+import { Tipo_doc } from "../models/tbl_tipo_doc";
+import { Cuenta } from "../models/tbl_cuenta";
 
 
 export const newUsuario = async(req:Request, res:Response)=>{
@@ -52,3 +56,34 @@ export const getUsuario = async(rep: Request, res: Response) =>{
 
     res.json(listUsuario)
 }
+
+export const getUserFindOne =async (req:Request, res: Response) => {
+
+    const {id} = req.params;
+
+    const listUser = await Usuario.findByPk((id),{ attributes: ['id_usuario','ruta_imagen','nombres','apellidos','numero_i','edad'],
+        include: [
+            {model: Parentesco , attributes: ['id_paren', 'parentesco']},
+            {model: Estado , attributes: ['id_estado', 'estado']},
+            {model: Tipo_doc , attributes: ['id_tipo_doc', 'tipo_doc']},
+            {model: Cuenta , attributes: ['id_cuenta','correo', 'usuario']}
+        ]});
+
+    res.json(listUser);
+}
+
+export const getIfExist =async (req:Request, res: Response) => {
+
+    const {id} = req.params;
+    
+    const ifExistUser = await Usuario.findOne({where: {fk_id_cuenta: id}})
+
+    if(ifExistUser){
+        res.json('ya existe')
+    }else{
+        res.json('no existe')
+    }
+}
+
+
+

@@ -32,7 +32,7 @@ const newParen = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.newParen = newParen;
 const getParen = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listParen = yield tbl_parentesco_1.Parentesco.findAll();
+    const listParen = yield tbl_parentesco_1.Parentesco.findAll({ attributes: ['id_paren', 'parentesco'] });
     res.json(listParen);
 });
 exports.getParen = getParen;

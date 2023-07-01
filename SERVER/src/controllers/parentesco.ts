@@ -26,7 +26,8 @@ export const newParen = async(req: Request, res: Response)=>{
 }
 
 export const getParen = async (req: Request, res: Response )=>{
-    const listParen = await Parentesco.findAll();
+    const listParen = await Parentesco.findAll({attributes: ['id_paren','parentesco']});
 
     res.json(listParen)
 }
+

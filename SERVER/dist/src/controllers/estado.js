@@ -35,7 +35,7 @@ const newEstado = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.newEstado = newEstado;
 const getEstado = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const listEsatdo = yield tbl_estado_1.Estado.findAll();
-    res.json({ listEsatdo });
+    const listEstado = yield tbl_estado_1.Estado.findAll({ attributes: ['id_estado', 'estado'] });
+    res.json(listEstado);
 });
 exports.getEstado = getEstado;
