@@ -75,7 +75,7 @@ class Server {
             try {
                 yield connection_1.default.sync();
                 yield tbl_rol_1.Rol.sync();
-                yield tbl_cuenta_1.Cuenta.sync();
+                yield tbl_cuenta_1.Cuenta.sync({ alter: true });
                 yield tbl_estado_1.Estado.sync();
                 yield tbl_tipo_doc_1.Tipo_doc.sync();
                 yield tbl_parentesco_1.Parentesco.sync();

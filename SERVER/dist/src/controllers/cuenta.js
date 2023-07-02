@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.getCuenta = exports.newCuenta = void 0;
+exports.FindUser = exports.loginUser = exports.getCuenta = exports.newCuenta = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const tbl_cuenta_1 = require("../models/tbl_cuenta");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const tbl_rol_1 = require("../models/tbl_rol");
+const tbl_administrador_1 = require("../models/tbl_administrador");
 const newCuenta = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //extraemos los datos necesarios de la solicitud (req.body), 
     //como el usuario,correo electrónico, la contraseñay el rol.
@@ -89,37 +90,15 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     // Generamos token
     const token = jsonwebtoken_1.default.sign({
-        correo: correo
+        correo: correo, rol: cuenta.fk_id_rol, id: cuenta.id_cuenta, primera_vez: cuenta.primera_vez
     }, process.env.SECRET_KEY || 'admin');
     res.json(token);
+    //    res.json(cuenta);
 });
 exports.loginUser = loginUser;
-// export const loginUser = async (req: Request, res: Response) => {
-//     const { correo, contrasena } = req.body;
-//     // Validamos si el usuario existe en la base de datos
-//     const cuenta: any = await Cuenta.findOne({ 
-//         where: { correo: correo },
-//         include: [
-//             {model: Rol, attributes: ['id_rol','tipo_rol']}] });
-//     if (!cuenta) {
-//       return res.status(400).json({
-//         msg: `No existe un usuario con el nombre ${correo} en la base de datos`,
-//       });
-//     }
-//     // Validamos password
-//     const passwordValid = await bcrypt.compare(contrasena, cuenta.contrasena);
-//     if (!passwordValid) {
-//       return res.status(400).json({
-//         msg: `Contraseña incorrecta`,
-//       });
-//     }
-//     // Generamos token con el rol
-//     const token = jwt.sign(
-//       {
-//         correo: correo,
-//         rol: cuenta.tipo_rol,
-//       },
-//       process.env.SECRET_KEY || 'admin'
-//     );
-//     res.json(token);
-//   };
+const FindUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const User = yield tbl_administrador_1.Administrador.findOne({ where: { fk_id_cuenta: id } });
+    res.json(User);
+});
+exports.FindUser = FindUser;

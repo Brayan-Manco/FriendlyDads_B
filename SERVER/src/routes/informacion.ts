@@ -7,7 +7,7 @@ const router = Router();
 
 router.put('/update/:id', validateToken, uploadDocs.single("doc"), updteInfo)
 
-router.post('/create', validateToken,uploadDocs.single("doc"), newInfo);
+router.post('/create',uploadDocs.single("doc"), newInfo);
 
 router.get('/find', validateToken, getInformacion);
 

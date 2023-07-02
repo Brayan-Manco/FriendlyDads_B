@@ -61,7 +61,6 @@ class Server {
     }
 
     mdlewares() {
-
         this.app.use(express.json());
         this.app.use(cors());
         //this.app.use(upload.single("foto"));
@@ -71,13 +70,12 @@ class Server {
         try {
             await sequelize.sync();
             await Rol.sync();
-            await Cuenta.sync();
+            await Cuenta.sync({alter: true});
             await Estado.sync();
             await Tipo_doc.sync();
             await Parentesco.sync();
             await Usuario.sync();
             await Bebe.sync();
-            
             await Administrador.sync();
             await Clasificacion.sync();
             await Informacion.sync();

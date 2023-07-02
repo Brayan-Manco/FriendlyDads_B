@@ -31,6 +31,11 @@ exports.Cuenta = connection_1.default.define('tbl_cuenta', {
         type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
+    primera_vez: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false, // Valor por defecto
+    },
 });
 exports.Cuenta.belongsTo(tbl_rol_1.Rol, {
     foreignKey: 'fk_id_rol'

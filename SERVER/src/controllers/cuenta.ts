@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { Cuenta } from '../models/tbl_cuenta';
 import jwt from 'jsonwebtoken';
 import { Rol } from '../models/tbl_rol';
+import { Administrador } from '../models/tbl_administrador';
 
 export const newCuenta = async (req: Request, res: Response) => {
     
@@ -86,44 +87,19 @@ export const loginUser = async (req: Request, res: Response) => {
    }
    // Generamos token
    const token = jwt.sign({
-    correo: correo
+    correo: correo, rol : cuenta.fk_id_rol, id: cuenta.id_cuenta, primera_vez: cuenta.primera_vez
    }, process.env.SECRET_KEY || 'admin');
    
    res.json(token);
+//    res.json(cuenta);
 }
-        
-// export const loginUser = async (req: Request, res: Response) => {
-//     const { correo, contrasena } = req.body;
   
-//     // Validamos si el usuario existe en la base de datos
-//     const cuenta: any = await Cuenta.findOne({ 
-//         where: { correo: correo },
-//         include: [
-//             {model: Rol, attributes: ['id_rol','tipo_rol']}] });
-//     if (!cuenta) {
-//       return res.status(400).json({
-//         msg: `No existe un usuario con el nombre ${correo} en la base de datos`,
-//       });
-//     }
-  
-//     // Validamos password
-//     const passwordValid = await bcrypt.compare(contrasena, cuenta.contrasena);
-//     if (!passwordValid) {
-//       return res.status(400).json({
-//         msg: `Contraseña incorrecta`,
-//       });
-//     }
-  
-//     // Generamos token con el rol
-//     const token = jwt.sign(
-//       {
-//         correo: correo,
-//         rol: cuenta.tipo_rol,
-//       },
-//       process.env.SECRET_KEY || 'admin'
-//     );
-  
-//     res.json(token);
-//   };
-  
+
+export const FindUser = async (req: Request, res: Response)=>{
+    const {id} = req.params;
+
+    const User = await Administrador.findOne({where: {fk_id_cuenta : id}})
+
+    res.json(User)
+}
   

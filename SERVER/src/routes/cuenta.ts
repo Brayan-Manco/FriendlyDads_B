@@ -1,5 +1,5 @@
 import  { Router } from 'express'
-import { getCuenta, loginUser, newCuenta } from '../controllers/cuenta';
+import { getCuenta, loginUser, newCuenta,FindUser } from '../controllers/cuenta';
 import validateToken from './validator-token';
 
 
@@ -11,6 +11,8 @@ router.get('/',validateToken, getCuenta)
 router.post('/', newCuenta)
 
 router.post('/login', loginUser)
+
+router.get('/finUser/:id', FindUser)
 
 
 export default router;

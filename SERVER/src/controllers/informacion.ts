@@ -101,6 +101,13 @@ export const getConsult = async (req: Request, res:Response)=>{
   }
 }
 
+export const FindUser = async (req: Request, res: Response)=>{
+    const {id} = req.params;
+
+    const User = await Administrador.findOne({where: {fk_id_cuenta : id}})
+
+    res.json(User)
+}
 
 //actualizar 
 export const updteInfo = async (req: Request, res:Response)=>{

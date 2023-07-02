@@ -26,6 +26,11 @@ export const Cuenta = sequelize.define('tbl_cuenta',{
         type:DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
+    primera_vez: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false, // Valor por defecto
+      },
 });
 
 
