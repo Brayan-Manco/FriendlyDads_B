@@ -63,7 +63,7 @@ const getUsuario = (rep, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getUsuario = getUsuario;
 const getUserFindOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const listUser = yield tbl_usuario_1.Usuario.findByPk((id), { attributes: ['id_usuario', 'ruta_imagen', 'nombres', 'apellidos', 'numero_i', 'edad'],
+    const listUser = yield tbl_usuario_1.Usuario.findOne({ where: { fk_id_cuenta: id }, attributes: ['id_usuario', 'ruta_imagen', 'nombres', 'apellidos', 'numero_i', 'edad'],
         include: [
             { model: tbl_parentesco_1.Parentesco, attributes: ['id_paren', 'parentesco'] },
             { model: tbl_estado_1.Estado, attributes: ['id_estado', 'estado'] },

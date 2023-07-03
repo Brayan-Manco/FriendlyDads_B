@@ -61,7 +61,7 @@ export const getUserFindOne =async (req:Request, res: Response) => {
 
     const {id} = req.params;
 
-    const listUser = await Usuario.findByPk((id),{ attributes: ['id_usuario','ruta_imagen','nombres','apellidos','numero_i','edad'],
+    const listUser = await Usuario.findOne({where:{fk_id_cuenta: id}, attributes: ['id_usuario','ruta_imagen','nombres','apellidos','numero_i','edad'],
         include: [
             {model: Parentesco , attributes: ['id_paren', 'parentesco']},
             {model: Estado , attributes: ['id_estado', 'estado']},
