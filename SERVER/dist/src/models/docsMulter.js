@@ -17,8 +17,9 @@ const storageDocs = multer_1.default.diskStorage({
         //nombramos el archivo Date.now tiempo actual
         //concatenado con un número aleatorio generado con el Math.round(Math.random()
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        const ubication = "../docs/";
         const fileExtension = file.originalname.split(".").pop(); //.split separa y el .pop eliminar
-        const filename = uniqueSuffix + "." + fileExtension;
+        const filename = ubication + uniqueSuffix + "." + fileExtension;
         cb(null, filename); // Nombre de archivo único
     },
 });
@@ -28,6 +29,6 @@ exports.uploadDocs = uploadDocs;
 // Ruta para obtener la imagen
 const getUploadedFileDocs = (req, res) => {
     const filename = req.params.filename;
-    res.sendFile(path_1.default.join(__dirname, "../docs", filename));
+    res.sendFile(path_1.default.join(__dirname, "../docs/", filename));
 };
 exports.getUploadedFileDocs = getUploadedFileDocs;

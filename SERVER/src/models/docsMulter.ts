@@ -4,7 +4,6 @@ import path from "path";
 
 // Configurar el almacenamiento de archivos con multer para admin 
 
-
 //multer.diskStorage pasa un objeto de opciones que define cómo 
 //se almacenarán los archivos en el disco.
 const storageDocs = multer.diskStorage({
@@ -15,8 +14,9 @@ const storageDocs = multer.diskStorage({
         //nombramos el archivo Date.now tiempo actual
         //concatenado con un número aleatorio generado con el Math.round(Math.random()
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        const ubication = "../docs/";
         const fileExtension = file.originalname.split(".").pop(); //.split separa y el .pop eliminar
-        const filename = uniqueSuffix + "." + fileExtension;
+        const filename = ubication + uniqueSuffix + "." + fileExtension;
         cb(null, filename); // Nombre de archivo único
     },
 });
@@ -28,8 +28,7 @@ const uploadDocs = multer({ storage: storageDocs });
 
 const getUploadedFileDocs = (req: Request, res:Response) => {
     const filename = req.params.filename;
-    res.sendFile(path.join(__dirname, "../docs", filename));
+    res.sendFile(path.join(__dirname, "../docs/", filename));
 };
-
 
 export { uploadDocs, getUploadedFileDocs };

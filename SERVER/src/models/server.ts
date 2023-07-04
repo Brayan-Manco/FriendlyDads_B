@@ -63,7 +63,7 @@ class Server {
     mdlewares() {
         this.app.use(express.json());
         this.app.use(cors());
-        //this.app.use(upload.single("foto"));
+        // this.app.use(upload.single("foto"));
     }
 
     async dbConnect() {
