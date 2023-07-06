@@ -9,7 +9,6 @@ import { deleteInfo,
         selectInfo, 
         selectOneInfo} from '../controllers/informacion';
 import validateToken from './validator-token';
-import { uploadDocs } from '../models/docsMulter';
 
 const router = Router();
 
