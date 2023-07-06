@@ -8,11 +8,11 @@ export const newAdmin = async(req:Request , res: Response)=>{
 
     const {nombres, apellidos, fk_id_tipo_doc, numero_i, edad, fk_id_cuenta} = req.body;
 
-    let foto = "";
-    if (req.file) {
-        foto = req.file.filename;
+    // let foto = "";
+    // if (req.file) {
+    //     foto = req.file.filename;
         
-    }
+    // }
 
     //consulta si ya exite el documento y dueño de la cuenta
     const numeroExist = await Administrador.findOne({where: {numero_i : numero_i }})
@@ -37,7 +37,7 @@ export const newAdmin = async(req:Request , res: Response)=>{
             numero_i: numero_i,
             edad: edad,
             fk_id_cuenta: fk_id_cuenta,
-            ruta_imagen: foto,
+            // ruta_imagen: foto,
         });
 
         res.json({

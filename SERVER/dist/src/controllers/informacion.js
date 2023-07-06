@@ -16,18 +16,19 @@ const tbl_clasificacion_1 = require("../models/tbl_clasificacion");
 const tbl_administrador_1 = require("../models/tbl_administrador");
 //crear 
 const newInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { fk_id_clasificacion, fk_id_admin, nombre, descripcion } = req.body;
-    let doc = "";
-    if (req.file) {
-        doc = req.file.filename;
-    }
+    const { informacion, fk_id_clasificacion, fk_id_admin, nombre, descripcion } = req.body;
+    // let doc ="";
+    // if(req.file){
+    //     doc = req.file.filename;
+    // }
     try {
         yield tbl_informacion_1.Informacion.create({
-            archivo: doc,
+            // archivo: doc,
+            informacion: informacion,
             fk_id_clasificacion: fk_id_clasificacion,
-            descripcion: descripcion,
             fk_id_admin: fk_id_admin,
-            nombre: nombre
+            nombre: nombre,
+            descripcion: descripcion,
         });
         res.json({
             msg: 'Contenido subido correctamente'
@@ -100,18 +101,19 @@ exports.getConsult = getConsult;
 //actualizar 
 const updteInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { fk_id_clasificacion, fk_id_admin, nombre, descripcion } = req.body;
-    let doc = "";
-    if (req.file) {
-        doc = req.file.filename;
-    }
+    const { fk_id_clasificacion, fk_id_admin, nombre, descripcion, informacion } = req.body;
+    // let doc ="";
+    // if(req.file){
+    //     doc = req.file.filename;
+    // }
     try {
         yield tbl_informacion_1.Informacion.update({
-            archivo: doc,
+            // archivo: doc,
             fk_id_clasificacion: fk_id_clasificacion,
             descripcion: descripcion,
             fk_id_admin: fk_id_admin,
-            nombre: nombre
+            nombre: nombre,
+            informacion: informacion
         }, { where: { id_info: id }, returning: true });
         res.json({
             msg: 'Contenido actualializado correctamente'

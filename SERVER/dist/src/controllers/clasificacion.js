@@ -13,11 +13,11 @@ exports.updateClasi = exports.deleteClasi = exports.getIdClasi = exports.getClas
 const tbl_clasificacion_1 = require("../models/tbl_clasificacion");
 //crear
 const newClasificacion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { clasificacion, descripcion } = req.body;
-    let foto = "";
-    if (req.file) {
-        foto = req.file.filename;
-    }
+    const { clasificacion, descripcion, foto } = req.body;
+    // let foto = "";
+    // if (req.file) {
+    //     foto = req.file.filename;
+    // }
     const clasificacionExist = yield tbl_clasificacion_1.Clasificacion.findOne({ where: { clasificacion: clasificacion } });
     if (clasificacionExist) {
         return res.status(400).json({

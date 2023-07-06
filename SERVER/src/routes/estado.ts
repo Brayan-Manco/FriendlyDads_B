@@ -6,6 +6,6 @@ const router = Router();
 
 router.post('/',newEstado);
 
-router.get('/listEst', getEstado);
+router.get('/listEst',validateToken, getEstado);
 
 export default router;

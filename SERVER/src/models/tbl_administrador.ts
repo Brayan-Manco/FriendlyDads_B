@@ -9,10 +9,10 @@ export const Administrador = sequelize.define('tbl_administradore',{
         primaryKey: true,
         autoIncrement: true
     },
-    ruta_imagen:{
-        type:DataTypes.STRING,
-        allowNull: true
-    },
+    // ruta_imagen:{
+    //     type:DataTypes.STRING,
+    //     allowNull: true
+    // },
     nombres:{
         type:DataTypes.STRING,
         allowNull: false

@@ -6,6 +6,6 @@ const router = Router();
 
 router.post('/new', newTipoD)
 
-router.get('/obtener', getTipo_doc);
+router.get('/obtener',validateToken, getTipo_doc);
 
 export default router;

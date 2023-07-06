@@ -5,13 +5,13 @@ import { getBebes, newBebe,getOneBebe, deleteBebe} from "../controllers/bebe";
 
 const router = Router();
 
-router.post('/',newBebe)
+router.post('/',validateToken,newBebe)
 
-router.get('/', getBebes);
+router.get('/',validateToken, getBebes);
 
 //buscar el fk_id_usuario para obtener
-router.get('/findForUser/:id', getOneBebe)
+router.get('/findForUser/:id',validateToken, getOneBebe)
 
-router.delete('/deleteBebe/:id', deleteBebe)
+router.delete('/deleteBebe/:id',validateToken, deleteBebe)
 
 export default router;

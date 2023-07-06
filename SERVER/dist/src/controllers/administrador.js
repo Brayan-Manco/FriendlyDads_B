@@ -15,10 +15,10 @@ const tbl_tipo_doc_1 = require("../models/tbl_tipo_doc");
 const tbl_cuenta_1 = require("../models/tbl_cuenta");
 const newAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { nombres, apellidos, fk_id_tipo_doc, numero_i, edad, fk_id_cuenta } = req.body;
-    let foto = "";
-    if (req.file) {
-        foto = req.file.filename;
-    }
+    // let foto = "";
+    // if (req.file) {
+    //     foto = req.file.filename;
+    // }
     //consulta si ya exite el documento y dueño de la cuenta
     const numeroExist = yield tbl_administrador_1.Administrador.findOne({ where: { numero_i: numero_i } });
     const fk_id_cuentaExist = yield tbl_administrador_1.Administrador.findOne({ where: { fk_id_cuenta: fk_id_cuenta } });
@@ -40,7 +40,7 @@ const newAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             numero_i: numero_i,
             edad: edad,
             fk_id_cuenta: fk_id_cuenta,
-            ruta_imagen: foto,
+            // ruta_imagen: foto,
         });
         res.json({
             msg: 'Administraor Creado con existo',

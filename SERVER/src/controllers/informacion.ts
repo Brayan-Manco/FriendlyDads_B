@@ -8,19 +8,20 @@ import { Administrador } from '../models/tbl_administrador';
 //crear 
 export const newInfo = async(req: Request, res: Response)=>{
 
-    const {fk_id_clasificacion,fk_id_admin, nombre, descripcion} = req.body;
+    const {informacion, fk_id_clasificacion,fk_id_admin, nombre, descripcion} = req.body;
 
-    let doc ="";
-    if(req.file){
-        doc = req.file.filename;
-    }
+    // let doc ="";
+    // if(req.file){
+    //     doc = req.file.filename;
+    // }
     try {
         await Informacion.create({
-            archivo: doc,
-            fk_id_clasificacion: fk_id_clasificacion,
-            descripcion: descripcion,
+            // archivo: doc,
+            informacion: informacion,
+            fk_id_clasificacion: fk_id_clasificacion, 
             fk_id_admin: fk_id_admin,
-            nombre:nombre
+            nombre:nombre,
+            descripcion: descripcion,
         })
 
         res.json({
@@ -51,8 +52,6 @@ export const getIdInfo = async (req: Request, res:Response)=>{
     const {id} = req.params;
 
     const Info = await Informacion.findByPk(id);
-
-
     // try {
         if(Info) {
             res.json(Info);
@@ -106,19 +105,20 @@ export const getConsult = async (req: Request, res:Response)=>{
 export const updteInfo = async (req: Request, res:Response)=>{
 
     const {id} = req.params;
-    const {fk_id_clasificacion,fk_id_admin, nombre, descripcion} = req.body;
+    const {fk_id_clasificacion,fk_id_admin, nombre, descripcion, informacion} = req.body;
 
-    let doc ="";
-    if(req.file){
-        doc = req.file.filename;
-    }
+    // let doc ="";
+    // if(req.file){
+    //     doc = req.file.filename;
+    // }
     try {
         await Informacion.update({
-            archivo: doc,
+            // archivo: doc,
             fk_id_clasificacion: fk_id_clasificacion,
             descripcion: descripcion,
             fk_id_admin: fk_id_admin,
-            nombre:nombre
+            nombre:nombre,
+            informacion: informacion
         },{where: {id_info: id}, returning: true})
 
         res.json({

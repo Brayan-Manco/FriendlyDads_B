@@ -10,5 +10,5 @@ const router = (0, express_1.Router)();
 router.get('/', validator_token_1.default, cuenta_1.getCuenta);
 router.post('/', cuenta_1.newCuenta);
 router.post('/login', cuenta_1.loginUser);
-router.get('/finUser/:id', cuenta_1.FindUser);
+router.get('/finUser/:id', validator_token_1.default, cuenta_1.FindUser);
 exports.default = router;

@@ -6,6 +6,6 @@ const router = Router();
 
 router.post('/', newParen);
 
-router.get('/listParen', getParen);
+router.get('/listParen',validateToken, getParen);
 
 export default router;

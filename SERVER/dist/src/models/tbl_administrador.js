@@ -14,10 +14,10 @@ exports.Administrador = connection_1.default.define('tbl_administradore', {
         primaryKey: true,
         autoIncrement: true
     },
-    ruta_imagen: {
-        type: sequelize_1.DataTypes.STRING,
-        allowNull: true
-    },
+    // ruta_imagen:{
+    //     type:DataTypes.STRING,
+    //     allowNull: true
+    // },
     nombres: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false

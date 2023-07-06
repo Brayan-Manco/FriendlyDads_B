@@ -16,7 +16,7 @@ export const Clasificacion = sequelize.define('tbl_clasificacione',{
         allowNull: false
     },
     descripcion:{
-        type:DataTypes.STRING,
+        type:DataTypes.TEXT,
         allowNull: false
     }
 })

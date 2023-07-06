@@ -75,15 +75,15 @@ class Server {
             try {
                 yield connection_1.default.sync();
                 yield tbl_rol_1.Rol.sync();
-                yield tbl_cuenta_1.Cuenta.sync({ alter: true });
+                yield tbl_cuenta_1.Cuenta.sync();
                 yield tbl_estado_1.Estado.sync();
                 yield tbl_tipo_doc_1.Tipo_doc.sync();
                 yield tbl_parentesco_1.Parentesco.sync();
                 yield tbl_usuario_1.Usuario.sync();
                 yield tbl_bebe_1.Bebe.sync();
-                yield tbl_administrador_1.Administrador.sync();
-                yield tbl_clasificacion_1.Clasificacion.sync();
-                yield tbl_informacion_1.Informacion.sync();
+                yield tbl_administrador_1.Administrador.sync({ alter: true });
+                yield tbl_clasificacion_1.Clasificacion.sync({ alter: true });
+                yield tbl_informacion_1.Informacion.sync({ alter: true });
                 console.log('Conexión Exitosa');
             }
             catch (error) {

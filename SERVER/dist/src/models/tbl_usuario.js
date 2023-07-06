@@ -23,10 +23,10 @@ exports.Usuario = connection_1.default.define('tbl_usuario', {
     fk_id_estado: {
         type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
     },
-    ruta_imagen: {
-        type: sequelize_1.DataTypes.STRING,
-        allowNull: true
-    },
+    // ruta_imagen:{
+    //     type:DataTypes.STRING,
+    //     allowNull: true
+    // },
     nombres: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false

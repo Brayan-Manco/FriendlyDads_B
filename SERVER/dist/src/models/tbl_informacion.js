@@ -22,10 +22,14 @@ exports.Informacion = connection_1.default.define('tbl_informacione', {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
     },
-    archivo: {
-        type: sequelize_1.DataTypes.STRING,
+    informacion: {
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false
     },
+    // archivo:{
+    //     type:DataTypes.STRING,
+    //     allowNull: false
+    // },
     fk_id_clasificacion: {
         type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
         allowNull: false

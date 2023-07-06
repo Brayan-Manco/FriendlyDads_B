@@ -4,12 +4,12 @@ import { Clasificacion } from "../models/tbl_clasificacion";
 //crear
 export const newClasificacion =async (req: Request,res:Response) => {
     
-    const {clasificacion, descripcion} = req.body;
+    const {clasificacion, descripcion,foto} = req.body;
 
-    let foto = "";
-    if (req.file) {
-        foto = req.file.filename;
-    }
+    // let foto = "";
+    // if (req.file) {
+    //     foto = req.file.filename;
+    // }
 
     const clasificacionExist = await Clasificacion.findOne({where: {clasificacion: clasificacion}});
 
@@ -26,6 +26,7 @@ export const newClasificacion =async (req: Request,res:Response) => {
             foto: foto
         })
         res.json({
+        
             msg: 'Clasificacion creada correctamente'
         })
     } catch (error) {

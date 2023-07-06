@@ -21,7 +21,7 @@ exports.Clasificacion = connection_1.default.define('tbl_clasificacione', {
         allowNull: false
     },
     descripcion: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false
     }
 });

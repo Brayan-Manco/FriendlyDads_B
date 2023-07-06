@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getIfExist = exports.getUserFindOne = exports.getUsuario = exports.newUsuario = void 0;
+exports.getIfExist = exports.updateTime = exports.getUserFindOne = exports.getUsuario = exports.UpdateUsuario = exports.newUsuario = void 0;
 const tbl_usuario_1 = require("../models/tbl_usuario");
 const tbl_parentesco_1 = require("../models/tbl_parentesco");
 const tbl_estado_1 = require("../models/tbl_estado");
@@ -17,10 +17,10 @@ const tbl_tipo_doc_1 = require("../models/tbl_tipo_doc");
 const tbl_cuenta_1 = require("../models/tbl_cuenta");
 const newUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { fk_id_paren, fk_id_estado, nombres, apellidos, fk_id_tipo_doc, numero_i, edad, fk_id_cuenta } = req.body;
-    let foto = "";
-    if (req.file) {
-        foto = req.file.filename;
-    }
+    // let foto = "";
+    // if (req.file) {
+    //     foto = req.file.filename;
+    // }
     const numeroExist = yield tbl_usuario_1.Usuario.findOne({ where: { numero_i: numero_i } });
     const fk_id_cuentaExist = yield tbl_usuario_1.Usuario.findOne({ where: { fk_id_cuenta: fk_id_cuenta } });
     if (numeroExist) {
@@ -43,7 +43,7 @@ const newUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             numero_i: numero_i,
             edad: edad,
             fk_id_cuenta: fk_id_cuenta,
-            ruta_imagen: foto,
+            // ruta_imagen: foto,
         });
         res.json({
             msg: 'Usuario creado correctamente'
@@ -51,11 +51,42 @@ const newUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
     catch (error) {
         res.status(400).json({
-            msg: 'ERROR CREATE USER'
+            msg: 'ERROR CREATE USER', error
         });
     }
 });
 exports.newUsuario = newUsuario;
+const UpdateUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { fk_id_paren, fk_id_estado, nombres, apellidos, fk_id_tipo_doc, numero_i, edad } = req.body;
+    const numeroExist = yield tbl_usuario_1.Usuario.findOne({ where: { numero_i: numero_i } });
+    if (numeroExist) {
+        return res.status(400).json({
+            msg: 'El documento ya esta asociado a otro usuario'
+        });
+    }
+    try {
+        yield tbl_usuario_1.Usuario.update({
+            fk_id_paren: fk_id_paren,
+            fk_id_estado: fk_id_estado,
+            nombres: nombres,
+            apellidos: apellidos,
+            fk_id_tipo_doc: fk_id_tipo_doc,
+            numero_i: numero_i,
+            edad: edad
+            // ruta_imagen: foto,
+        }, { where: { id_usuario: id }, returning: true });
+        res.json({
+            msg: 'Usuario actualizado correctamente'
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: 'ERROR UPDATE USER', error
+        });
+    }
+});
+exports.UpdateUsuario = UpdateUsuario;
 const getUsuario = (rep, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listUsuario = yield tbl_usuario_1.Usuario.findAll();
     res.json(listUsuario);
@@ -63,7 +94,7 @@ const getUsuario = (rep, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getUsuario = getUsuario;
 const getUserFindOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const listUser = yield tbl_usuario_1.Usuario.findOne({ where: { fk_id_cuenta: id }, attributes: ['id_usuario', 'ruta_imagen', 'nombres', 'apellidos', 'numero_i', 'edad'],
+    const listUser = yield tbl_usuario_1.Usuario.findOne({ where: { fk_id_cuenta: id }, attributes: ['id_usuario', 'nombres', 'apellidos', 'numero_i', 'edad', 'fk_id_cuenta'],
         include: [
             { model: tbl_parentesco_1.Parentesco, attributes: ['id_paren', 'parentesco'] },
             { model: tbl_estado_1.Estado, attributes: ['id_estado', 'estado'] },
@@ -73,6 +104,15 @@ const getUserFindOne = (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.json(listUser);
 });
 exports.getUserFindOne = getUserFindOne;
+const updateTime = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { vez } = req.body;
+    yield tbl_cuenta_1.Cuenta.update({
+        primera_vez: vez
+    }, { where: { id_cuenta: id } });
+    res.json('estado actualizado');
+});
+exports.updateTime = updateTime;
 const getIfExist = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const ifExistUser = yield tbl_usuario_1.Usuario.findOne({ where: { fk_id_cuenta: id } });

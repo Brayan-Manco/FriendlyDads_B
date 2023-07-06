@@ -6,10 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const informacion_1 = require("../controllers/informacion");
 const validator_token_1 = __importDefault(require("./validator-token"));
-const docsMulter_1 = require("../models/docsMulter");
 const router = (0, express_1.Router)();
-router.put('/update/:id', validator_token_1.default, docsMulter_1.uploadDocs.single("doc"), informacion_1.updteInfo);
-router.post('/create', docsMulter_1.uploadDocs.single("doc"), informacion_1.newInfo);
+// router.put('/update/:id', validateToken, uploadDocs.single("doc"), updteInfo)
+router.put('/update/:id', validator_token_1.default, informacion_1.updteInfo);
+// router.post('/create',uploadDocs.single("doc"), newInfo);
+router.post('/create', validator_token_1.default, informacion_1.newInfo);
 router.get('/find', validator_token_1.default, informacion_1.getInformacion);
 router.get('/findOneUpdate/:id', informacion_1.getFileUpdate);
 router.post('/search', validator_token_1.default, informacion_1.getConsult);

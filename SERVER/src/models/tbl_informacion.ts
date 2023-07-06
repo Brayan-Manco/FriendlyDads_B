@@ -1,5 +1,5 @@
 import sequelize from "../db/connection";
-import { DataTypes } from "sequelize";
+import { DataTypes, TEXT } from "sequelize";
 import { Clasificacion } from "./tbl_clasificacion";
 import { Administrador } from "./tbl_administrador";
 
@@ -17,10 +17,14 @@ export const Informacion = sequelize.define('tbl_informacione',{
         type:DataTypes.STRING,
         allowNull: false
     },
-    archivo:{
-        type:DataTypes.STRING,
+    informacion: {
+        type: DataTypes.TEXT,
         allowNull: false
     },
+    // archivo:{
+    //     type:DataTypes.STRING,
+    //     allowNull: false
+    // },
     fk_id_clasificacion:{
         type:DataTypes.INTEGER.UNSIGNED,
         allowNull: false

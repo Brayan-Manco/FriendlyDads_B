@@ -50,6 +50,7 @@ export const getOneBebe = async (req: Request, res: Response) =>{
           { model: Tipo_doc, attributes: ['id_tipo_doc','tipo_doc']}
         ]
       })
+      
     res.json(infoBebe);
 }
 

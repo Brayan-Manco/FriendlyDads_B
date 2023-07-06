@@ -19,10 +19,10 @@ export const Usuario = sequelize.define('tbl_usuario',{
     fk_id_estado:{
         type:DataTypes.INTEGER.UNSIGNED,
     },
-    ruta_imagen:{
-        type:DataTypes.STRING,
-        allowNull: true
-    },
+    // ruta_imagen:{
+    //     type:DataTypes.STRING,
+    //     allowNull: true
+    // },
     nombres:{
         type:DataTypes.STRING,
         allowNull: false

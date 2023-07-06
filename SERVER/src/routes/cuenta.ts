@@ -12,7 +12,7 @@ router.post('/', newCuenta)
 
 router.post('/login', loginUser)
 
-router.get('/finUser/:id', FindUser)
+router.get('/finUser/:id',validateToken, FindUser)
 
 
 export default router;
