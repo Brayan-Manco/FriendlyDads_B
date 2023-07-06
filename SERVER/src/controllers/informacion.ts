@@ -131,6 +131,25 @@ export const updteInfo = async (req: Request, res:Response)=>{
     }
 }
 
+export const selectInfo = async(req:Request, res:Response)=>{
+    const {id} = req.params;
+
+    const ListClasificacion = await Informacion.findAll({where: {fk_id_clasificacion: id}, 
+        attributes: ['id_info','nombre','descripcion'], 
+        include: {model: Administrador, attributes: ['nombres']}})
+
+    res.json(ListClasificacion)
+}
+
+
+export const selectOneInfo = async(req:Request, res:Response)=>{
+    const {id} = req.params
+
+    const info = await Informacion.findOne({where: {id_info: id}, attributes: ['nombre','informacion']})
+
+    res.json(info)
+}
+
 
 //delete
 export const deleteInfo = async(req:Request, res:Response)=>{

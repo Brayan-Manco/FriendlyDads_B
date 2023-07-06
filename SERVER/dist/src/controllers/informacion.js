@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteInfo = exports.updteInfo = exports.getConsult = exports.getFileUpdate = exports.getIdInfo = exports.getInformacion = exports.newInfo = void 0;
+exports.deleteInfo = exports.selectOneInfo = exports.selectInfo = exports.updteInfo = exports.getConsult = exports.getFileUpdate = exports.getIdInfo = exports.getInformacion = exports.newInfo = void 0;
 const tbl_informacion_1 = require("../models/tbl_informacion");
 const sequelize_1 = require("sequelize");
 const tbl_clasificacion_1 = require("../models/tbl_clasificacion");
@@ -126,6 +126,20 @@ const updteInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.updteInfo = updteInfo;
+const selectInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const ListClasificacion = yield tbl_informacion_1.Informacion.findAll({ where: { fk_id_clasificacion: id },
+        attributes: ['id_info', 'nombre', 'descripcion'],
+        include: { model: tbl_administrador_1.Administrador, attributes: ['nombres'] } });
+    res.json(ListClasificacion);
+});
+exports.selectInfo = selectInfo;
+const selectOneInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const info = yield tbl_informacion_1.Informacion.findOne({ where: { id_info: id }, attributes: ['nombre', 'informacion'] });
+    res.json(info);
+});
+exports.selectOneInfo = selectOneInfo;
 //delete
 const deleteInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;

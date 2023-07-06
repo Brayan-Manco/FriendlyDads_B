@@ -13,6 +13,8 @@ router.put('/update/:id', validator_token_1.default, informacion_1.updteInfo);
 router.post('/create', validator_token_1.default, informacion_1.newInfo);
 router.get('/find', validator_token_1.default, informacion_1.getInformacion);
 router.get('/findOneUpdate/:id', informacion_1.getFileUpdate);
+router.get('/findInfo/:id', validator_token_1.default, informacion_1.selectInfo);
+router.get('/findOneInfo/:id', validator_token_1.default, informacion_1.selectOneInfo);
 router.post('/search', validator_token_1.default, informacion_1.getConsult);
 router.post('/find/:id', validator_token_1.default, informacion_1.getIdInfo);
 router.delete('/delete/:id', validator_token_1.default, informacion_1.deleteInfo);

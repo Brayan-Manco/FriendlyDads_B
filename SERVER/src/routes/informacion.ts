@@ -1,5 +1,13 @@
 import { Router } from 'express'
-import { deleteInfo, getConsult, getFileUpdate, getIdInfo, getInformacion, newInfo, updteInfo } from '../controllers/informacion';
+import { deleteInfo, 
+        getConsult, 
+        getFileUpdate, 
+        getIdInfo, 
+        getInformacion, 
+        newInfo, 
+        updteInfo,
+        selectInfo, 
+        selectOneInfo} from '../controllers/informacion';
 import validateToken from './validator-token';
 import { uploadDocs } from '../models/docsMulter';
 
@@ -14,6 +22,10 @@ router.post('/create',validateToken, newInfo);
 router.get('/find', validateToken, getInformacion);
 
 router.get('/findOneUpdate/:id', getFileUpdate);
+
+router.get('/findInfo/:id',validateToken,selectInfo)
+
+router.get('/findOneInfo/:id',validateToken, selectOneInfo)
 
 router.post('/search', validateToken,getConsult);
 
